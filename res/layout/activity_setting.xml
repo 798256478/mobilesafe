@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	
+    <TextView 
+        style="@style/TitleStyle"
+        android:text="设置中心"/>
+    
+    <com.zahowenbin.mobilesafe.view.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe"
+        android:id="@+id/siv_update"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        mobilesafe:destitle="自动更新"
+        mobilesafe:deson="(已开启)"
+        mobilesafe:desoff="(已关闭)">
+    </com.zahowenbin.mobilesafe.view.SettingItemView>
+    
+	<com.zahowenbin.mobilesafe.view.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe"
+        android:id="@+id/siv_address"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        mobilesafe:destitle="号码归属地显示"
+        mobilesafe:deson="(已开启)"
+        mobilesafe:desoff="(已关闭)">
+    </com.zahowenbin.mobilesafe.view.SettingItemView>
+    
+    <com.zahowenbin.mobilesafe.view.SettingClickView
+        android:id="@+id/scv_toast_style"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+		>
+    </com.zahowenbin.mobilesafe.view.SettingClickView>
+    
+    <com.zahowenbin.mobilesafe.view.SettingClickView
+        android:id="@+id/scv_toast_loaction"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+		>
+    </com.zahowenbin.mobilesafe.view.SettingClickView>
+</LinearLayout>

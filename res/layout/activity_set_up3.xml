@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView 
+        style="@style/TitleStyle"
+        android:text="3.设置安全号码"/>
+	<TextView 
+	    android:layout_margin="5dp"
+	    android:text="SIM卡变更后\n报警短信会发送给安全号码"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"/>
+	<EditText 
+	    android:id="@+id/et_selected_phone"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"/>
+	<Button 
+	    android:id="@+id/select_phone"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:text="选择联系人"
+	    android:background="@drawable/selector_number_btn"/>
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:gravity="center">
+	    <ImageView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@android:drawable/presence_invisible"/>
+	    <ImageView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@android:drawable/presence_invisible"/>
+	    <ImageView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@android:drawable/presence_online"/>
+	    <ImageView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@android:drawable/presence_invisible"/>
+	</LinearLayout>
+	<RelativeLayout 
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+		>
+	    <ImageView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:background="@drawable/phone"
+	        android:layout_centerInParent="true"/>
+	    <Button 
+	        android:onClick="prevPage"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/selector_set_up_btn"
+	        android:text="上一页"
+	        android:drawableLeft="@drawable/previous"/>
+	    <Button 
+	        android:onClick="nextPage"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/selector_set_up_btn"
+	        android:text="下一页"
+	        android:drawableRight="@drawable/next"/>
+	</RelativeLayout>
+    
+
+</LinearLayout>
