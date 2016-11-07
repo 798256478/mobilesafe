@@ -40,7 +40,23 @@ public class SettingItemView extends RelativeLayout {
 		tv_title.setText(mDestitle);
 	}
 	
+	
+	/**
+	 * 返回属性集合中自定义属性属性值
+	 * @param attrs 构造方法中维护好的属性集合
+	 */
 	private void initAttrs(AttributeSet attrs) {
+		/*<com.zahowenbin.mobilesafe.view.SettingItemView
+	        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe"
+	        android:id="@+id/siv_address"
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        mobilesafe:destitle="号码归属地显示"
+	        mobilesafe:deson="(已开启)"
+	        mobilesafe:desoff="(已关闭)">
+    	</com.zahowenbin.mobilesafe.view.SettingItemView>*/
+		//private static final String NAMESPACE = "http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe";
+		//通过命名空间 + 属性名称获取属性值
 		mDestitle = attrs.getAttributeValue(NAMESPACE, "destitle");
 		mDeson = attrs.getAttributeValue(NAMESPACE, "deson");
 		mDesoff = attrs.getAttributeValue(NAMESPACE, "desoff");

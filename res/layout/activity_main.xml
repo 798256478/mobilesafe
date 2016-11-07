@@ -8,6 +8,7 @@
 	    style="@style/TitleStyle"
 	    android:text="功能列表"/>
 	
+	<!-- 想让文字出现跑马灯效果，必须让其获取焦点 -->
 	<com.zahowenbin.mobilesafe.view.FocusTextView
 	    android:text="跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯跑马灯"
 	    android:singleLine="true"

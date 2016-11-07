@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+/**
+ * 能够获取焦点的自定义TextView
+ */
 public class FocusTextView extends TextView {
 
 	public FocusTextView(Context context) {
@@ -21,6 +24,7 @@ public class FocusTextView extends TextView {
 		// TODO Auto-generated constructor stub
 	}
 	
+	//重写获取焦点的方法,由系统调用,调用的时候默认就能获取焦点
 	public  boolean isFocused() {
 		
 		return true;
