@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView 
+        style="@style/TitleStyle"
+        android:text="添加号码"
+        android:inputType="phone"
+        android:background="#fcc"/>
+    <EditText 
+        android:id="@+id/et_blacknumber"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        />
+    <RadioGroup
+        android:id="@+id/rg_intercept_mode"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <RadioButton 
+            android:id="@+id/rb_sms"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:checked="true"
+            android:text="短信"/>
+        <RadioButton 
+            android:id="@+id/rb_phone"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="电话"/>
+        <RadioButton 
+            android:id="@+id/rb_all"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="所有"/>
+    </RadioGroup>
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button 
+            android:id="@+id/btn_balcknumber_submit"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="确定"/>
+        <Button 
+            android:id="@+id/btn_balcknumber_cancel"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="取消"/>
+    </LinearLayout>
+
+</LinearLayout>

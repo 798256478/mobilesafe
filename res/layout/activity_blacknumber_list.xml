@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+        <TextView 
+            style="@style/TitleStyle"
+            android:text="黑名单列表"
+            android:gravity="left"/>
+        <Button 
+            android:id="@+id/btn_add_blacknumber"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="添加"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="-3dp"
+            />
+    </RelativeLayout>
+    <ListView 
+        android:id="@+id/lv_blacknumber"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        
+    </ListView>
+
+</LinearLayout>

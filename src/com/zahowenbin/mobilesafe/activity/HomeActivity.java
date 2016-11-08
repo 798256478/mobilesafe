@@ -60,6 +60,9 @@ public class HomeActivity extends Activity {
 				case 0:
 					showDialog();
 					break;
+				case 1:
+					startActivity(new Intent(getApplicationContext(), BlackNumberActivity.class));
+					break;
 				case 7:
 					Intent intent2 = new Intent(getApplicationContext(), AtoolsActivity.class);
 					startActivity(intent2);

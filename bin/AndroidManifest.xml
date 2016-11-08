@@ -60,6 +60,8 @@
             android:name="com.zahowenbin.mobilesafe.activity.RocketBgActivity" 
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.BlackNumberActivity" />
         <receiver 
             android:name="com.zahowenbin.mobilesafe.receiver.BootReceiver">
             <intent-filter>

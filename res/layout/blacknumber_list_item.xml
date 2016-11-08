@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:gravity="center_vertical">
+    
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:orientation="vertical"
+	    android:layout_alignParentLeft="true"
+	    android:padding="3dp">
+	    <TextView 
+			android:id="@+id/tv_intercept_phone"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:textSize="18sp"
+	        android:textColor="#333"
+	        />
+	    <TextView 
+	        android:id="@+id/tv_intercept_mode"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:textColor="#999"
+	        android:layout_marginTop="3dp"
+	        android:layout_marginLeft="1dp"
+	        />
+	</LinearLayout>
+	<ImageView 
+	    android:id="@+id/iv_delete_blacknumber"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:background="@drawable/main_clean_icon"/>
+</RelativeLayout>
