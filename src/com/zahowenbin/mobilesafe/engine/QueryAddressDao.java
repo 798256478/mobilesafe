@@ -1,7 +1,10 @@
 package com.zahowenbin.mobilesafe.engine;
 
+import com.zahowenbin.mobilesafe.utils.ToastUtil;
+
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class QueryAddressDao {
 	protected static final String path = "data/data/com.zahowenbin.mobilesafe/files/address.db";

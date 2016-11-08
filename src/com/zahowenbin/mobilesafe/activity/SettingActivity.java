@@ -4,6 +4,7 @@ import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.service.AddressService;
 import com.zahowenbin.mobilesafe.service.FloatBallService;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
+import com.zahowenbin.mobilesafe.utils.ServiceUtil;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
 import com.zahowenbin.mobilesafe.view.SettingClickView;
 import com.zahowenbin.mobilesafe.view.SettingItemView;
@@ -11,6 +12,7 @@ import com.zahowenbin.mobilesafe.view.SettingItemView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +40,7 @@ public class SettingActivity extends Activity {
 
 	private void initFloatBall() {
 		final SettingItemView siv_float_ball = (SettingItemView) findViewById(R.id.siv_float_ball);
-		Boolean isCheck = SpUtil.getBoolean(this, ConstantView.FLOAT_BALL, false);
+		Boolean isCheck = ServiceUtil.isRunning(this, "com.zahowenbin.mobilesafe.service.FloatBallService");
 		siv_float_ball.setCheck(isCheck);
 		siv_float_ball.setOnClickListener(new OnClickListener() {
 			
@@ -46,7 +48,6 @@ public class SettingActivity extends Activity {
 			public void onClick(View arg0) {
 				Boolean isCheck = SpUtil.getBoolean(getApplicationContext(), ConstantView.FLOAT_BALL, false);
 				siv_float_ball.setCheck(!isCheck);
-				SpUtil.putBoolean(getApplicationContext(), ConstantView.FLOAT_BALL, !isCheck);
 				if(!isCheck){
 					startService(new Intent(getApplicationContext(), FloatBallService.class));
 				} else {
@@ -112,7 +113,7 @@ public class SettingActivity extends Activity {
 
 	private void initAddress() {
 		final SettingItemView siv_address = (SettingItemView) findViewById(R.id.siv_address);
-		boolean isCheck = siv_address.isCheck();
+		boolean isCheck = ServiceUtil.isRunning(this, "com.zahowenbin.mobilesafe.service.AddressService");
 		siv_address.setCheck(isCheck);
 		siv_address.setOnClickListener(new OnClickListener() {
 			

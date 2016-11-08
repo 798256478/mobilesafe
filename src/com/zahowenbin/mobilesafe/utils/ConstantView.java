@@ -14,4 +14,5 @@ public class ConstantView {
 	public static final String FLOAT_BALL = "float_ball";
 	public static final String FLOAT_BALL_lOCATIONX = "float_ball_locationX";
 	public static final String FLOAT_BALL_lOCATIONY = "float_ball_locationY";
+	public static final String OPEN_ADDRESS = "open_address";
 }

@@ -4,10 +4,13 @@ import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.engine.QueryAddressDao;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
+import com.zahowenbin.mobilesafe.utils.ToastUtil;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
@@ -43,6 +46,7 @@ public class AddressService extends Service {
 	protected int mMoveY;
 	private int mScreenHeight;
 	private int mScreenwidth;
+	private InnerOutCallReceiver mInnerOutCallReceiver;
 
 	@Override
 	public void onCreate() {
@@ -54,6 +58,22 @@ public class AddressService extends Service {
 		mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 		mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
 		mScreenwidth = mWindowManager.getDefaultDisplay().getWidth();
+		
+		//监听播出电话的广播过滤条件
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(Intent.ACTION_NEW_OUTGOING_CALL);
+		
+		mInnerOutCallReceiver = new InnerOutCallReceiver();
+		registerReceiver(mInnerOutCallReceiver, intentFilter);
+	}
+	
+	class InnerOutCallReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			String phone = getResultData();//获取播出电话号码的字符串
+			toastShow(phone);
+		}
 	}
 	
 	class MyPhoneSteteListener extends PhoneStateListener{
@@ -174,6 +194,12 @@ public class AddressService extends Service {
 	public void onDestroy() {
 		if(mTelephonyManager != null && mPhoneSteteListener != null){
 			mTelephonyManager.listen(mPhoneSteteListener, PhoneStateListener.LISTEN_NONE);
+		}
+		if(mWindowManager != null && mToastView != null){
+			mWindowManager.removeView(mToastView);
+		}
+		if(mInnerOutCallReceiver != null){
+			unregisterReceiver(mInnerOutCallReceiver);
 		}
 		super.onDestroy();
 	}
