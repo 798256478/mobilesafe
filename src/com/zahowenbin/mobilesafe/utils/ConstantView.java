@@ -11,4 +11,7 @@ public class ConstantView {
 	public static final String TOAST_VIEW = "toast_view";
 	public static final String TOASTlOCATIONX = "toast_locationX";
 	public static final String TOASTlOCATIONY = "toast_locationY";
+	public static final String FLOAT_BALL = "float_ball";
+	public static final String FLOAT_BALL_lOCATIONX = "float_ball_locationX";
+	public static final String FLOAT_BALL_lOCATIONY = "float_ball_locationY";
 }

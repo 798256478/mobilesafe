@@ -2,6 +2,7 @@ package com.zahowenbin.mobilesafe.activity;
 
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.service.AddressService;
+import com.zahowenbin.mobilesafe.service.FloatBallService;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
 import com.zahowenbin.mobilesafe.view.SettingClickView;
@@ -32,6 +33,27 @@ public class SettingActivity extends Activity {
 		initAddress();
 		initToastStyle();
 		initToastLocation();
+		initFloatBall();
+	}
+
+	private void initFloatBall() {
+		final SettingItemView siv_float_ball = (SettingItemView) findViewById(R.id.siv_float_ball);
+		Boolean isCheck = SpUtil.getBoolean(this, ConstantView.FLOAT_BALL, false);
+		siv_float_ball.setCheck(isCheck);
+		siv_float_ball.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Boolean isCheck = SpUtil.getBoolean(getApplicationContext(), ConstantView.FLOAT_BALL, false);
+				siv_float_ball.setCheck(!isCheck);
+				SpUtil.putBoolean(getApplicationContext(), ConstantView.FLOAT_BALL, !isCheck);
+				if(!isCheck){
+					startService(new Intent(getApplicationContext(), FloatBallService.class));
+				} else {
+					stopService(new Intent(getApplicationContext(), FloatBallService.class));
+				}
+			}
+		});
 	}
 
 	private void initToastLocation() {
