@@ -19,6 +19,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +42,8 @@ public class BlackNumberActivity extends Activity {
 	private Button btn_blacknumber_cancel;
 	private MyAdapter adapter;
 	private AlertDialog alertDialog;
+	protected boolean mOnLoad = false;
+	private int count;
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			if(adapter == null){
@@ -48,9 +52,10 @@ public class BlackNumberActivity extends Activity {
 			} else {
 				adapter.notifyDataSetChanged();
 			}
-			
+			mOnLoad = false;
 		};
 	};
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,8 @@ public class BlackNumberActivity extends Activity {
 			@Override
 			public void run() {
 				blackNumberDao = BlackNumberDao.getInstance(getApplicationContext());
-				mBlackNumberInfos = blackNumberDao.findAll();
+				mBlackNumberInfos = blackNumberDao.find(0);
+				count = blackNumberDao.getCount();
 				mHandler.sendEmptyMessage(0);
 			}
 		}.start();	
@@ -78,11 +84,64 @@ public class BlackNumberActivity extends Activity {
 		btn_add_blacknumber.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				showAddDialog();
 			}
 		});
-
+		lv_blacknumber.setOnScrollListener(new OnScrollListener() {
+			/*
+			 * 滑动状态改变时触发 
+			 */
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				switch (scrollState) {
+				/*
+				 * 快速滑动时
+				 */
+				case OnScrollListener.SCROLL_STATE_FLING:
+					
+					break;
+				/*
+				 * 滑动状态停止时
+				 */
+				case OnScrollListener.SCROLL_STATE_IDLE:
+					if(mBlackNumberInfos != null){
+						if(lv_blacknumber.getLastVisiblePosition() >= mBlackNumberInfos.size() - 1 && !mOnLoad){
+							if(count > mBlackNumberInfos.size()){
+								new Thread(){
+									@Override
+									public void run() {
+										blackNumberDao = BlackNumberDao.getInstance(getApplicationContext());
+										List<BlackNumberInfo> getMore = blackNumberDao.find(mBlackNumberInfos.size());
+										mBlackNumberInfos.addAll(getMore);
+										mOnLoad = true;
+										mHandler.sendEmptyMessage(0);
+									}
+								}.start();
+							}
+						}
+					}
+					break;
+				/*
+				 * 手拖动屏幕慢慢滑动时 
+				 */
+				case OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+					
+					break;
+				}
+				
+			}
+			
+			/*
+			 * 滑动过程中触发 
+			 */
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	class MyAdapter extends BaseAdapter {
@@ -94,50 +153,69 @@ public class BlackNumberActivity extends Activity {
 		}
 
 		@Override
-		public Object getItem(int arg0) {
+		public Object getItem(int position) {
 			// TODO Auto-generated method stub
-			return mBlackNumberInfos.get(arg0);
+			return mBlackNumberInfos.get(position);
 		}
 
 		@Override
-		public long getItemId(int arg0) {
+		public long getItemId(int position) {
 			// TODO Auto-generated method stub
-			return arg0;
+			return position;
 		}
-
+		
+		/*
+		 * listView优化方法
+		 * 
+		 * 1.复用converView
+		 * 2.对findViewById次数的优化，使用ViewHolder
+		 * 3.将ViewHolder定义成静态，不会去创建更多对象
+		 * 4.listView如果有多个条目的时候，采用分页加载
+		 */
 		@Override
-		public View getView(final int arg0, View arg1, ViewGroup arg2) {
-			View view = View.inflate(getApplicationContext(), R.layout.blacknumber_list_item, null);
-			TextView tv_intercept_phone = (TextView) view.findViewById(R.id.tv_intercept_phone);
-			TextView tv_intercept_mode = (TextView) view.findViewById(R.id.tv_intercept_mode);
-			ImageView iv_delete_blacknumber = (ImageView) view.findViewById(R.id.iv_delete_blacknumber);
-			tv_intercept_phone.setText(mBlackNumberInfos.get(arg0).getPhone().toString());
-			switch (Integer.parseInt(mBlackNumberInfos.get(arg0).getMode())) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			ViewHolder viewHolder = null;
+			if(convertView == null){
+				viewHolder = new ViewHolder();
+				convertView = View.inflate(getApplicationContext(), R.layout.blacknumber_list_item, null);
+				viewHolder.tv_intercept_phone = (TextView) convertView.findViewById(R.id.tv_intercept_phone);
+				viewHolder.tv_intercept_mode = (TextView) convertView.findViewById(R.id.tv_intercept_mode);
+				viewHolder.iv_delete_blacknumber = (ImageView) convertView.findViewById(R.id.iv_delete_blacknumber);
+				convertView.setTag(viewHolder);
+			} else {
+				viewHolder = (ViewHolder) convertView.getTag();
+			}
+			viewHolder.tv_intercept_phone.setText(mBlackNumberInfos.get(position).getPhone().toString());
+			switch (Integer.parseInt(mBlackNumberInfos.get(position).getMode())) {
 			case 1:
-				tv_intercept_mode.setText("拦截短信");
+				viewHolder.tv_intercept_mode.setText("拦截短信");
 				break;
 			case 2:
-				tv_intercept_mode.setText("拦截电话");
+				viewHolder.tv_intercept_mode.setText("拦截电话");
 				break;
 			case 3:
-				tv_intercept_mode.setText("拦截所有");
+				viewHolder.tv_intercept_mode.setText("拦截所有");
 				break;
 			}
-			iv_delete_blacknumber.setOnClickListener(new OnClickListener() {
-				
+			viewHolder.iv_delete_blacknumber.setOnClickListener(new OnClickListener() {			
 				@Override
 				public void onClick(View view) {
-					blackNumberDao.delete(mBlackNumberInfos.get(arg0).getPhone());
-					mBlackNumberInfos.remove(arg0);
+					blackNumberDao.delete(mBlackNumberInfos.get(position).getPhone());
+					mBlackNumberInfos.remove(position);
 					if(adapter != null){
 						adapter.notifyDataSetChanged();
 					}
 					ToastUtil.show(getApplicationContext(), "删除成功");
 				}
 			});
-			return view;
+			return convertView;
 		}
-		
+	}
+	
+	static class ViewHolder {
+		TextView tv_intercept_phone;
+		TextView tv_intercept_mode;
+		ImageView iv_delete_blacknumber;
 	}
 
 	protected void showAddDialog() {
@@ -149,10 +227,10 @@ public class BlackNumberActivity extends Activity {
 		btn_blacknumber_submit = (Button) view.findViewById(R.id.btn_balcknumber_submit);
 		btn_blacknumber_cancel = (Button) view.findViewById(R.id.btn_balcknumber_cancel);
 		rg_intercept_mode.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+
 			@Override
-			public void onCheckedChanged(RadioGroup arg0, int arg1) {
-				switch (arg1) {
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				switch (checkedId) {
 				case R.id.rb_sms:
 					mode = 1;
 					break;
@@ -168,7 +246,7 @@ public class BlackNumberActivity extends Activity {
 		btn_blacknumber_submit.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				if(!TextUtils.isEmpty(et_blacknumber.getText().toString())){
 					blackNumberDao.insert(et_blacknumber.getText().toString(), mode + "");
 					BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
@@ -187,7 +265,7 @@ public class BlackNumberActivity extends Activity {
 		btn_blacknumber_cancel.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
 				alertDialog.dismiss();
 			}
 		});

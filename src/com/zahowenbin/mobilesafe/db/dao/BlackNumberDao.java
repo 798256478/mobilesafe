@@ -3,6 +3,7 @@ package com.zahowenbin.mobilesafe.db.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -65,5 +66,33 @@ public class BlackNumberDao {
 		cursor.close();
 		db.close();
 		return blackNumberList;
+	}
+	
+	public List<BlackNumberInfo> find(int index){
+		SQLiteDatabase db = blackNumberOpenHelper.getWritableDatabase();
+		List<BlackNumberInfo> blackNumberList = new ArrayList<BlackNumberInfo>();
+		Cursor cursor = db.rawQuery("select phone, mode from blacknumber order by _id desc limit ?, 20;", new String[]{index+""});
+		while (cursor.moveToNext()) {
+			BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
+			blackNumberInfo.setPhone(cursor.getString(0));
+			blackNumberInfo.setMode(cursor.getString(1));
+			blackNumberList.add(blackNumberInfo);
+		}
+		cursor.close();
+		db.close();
+		return blackNumberList;
+	}
+	
+	public int getCount(){
+		SQLiteDatabase db = blackNumberOpenHelper.getWritableDatabase();
+		Cursor cursor = db.rawQuery("select count(*) from blacknumber;", null);
+		int count = 0;
+		if(cursor.moveToNext()){
+			count = cursor.getInt(0);
+		}
+		cursor.close();
+		db.close();
+		return count;
+			
 	}
 }
