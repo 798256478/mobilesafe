@@ -2,6 +2,7 @@ package com.zahowenbin.mobilesafe.activity;
 
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.service.AddressService;
+import com.zahowenbin.mobilesafe.service.BlackNumberService;
 import com.zahowenbin.mobilesafe.service.FloatBallService;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.ServiceUtil;
@@ -24,6 +25,7 @@ public class SettingActivity extends Activity {
 	private String[] mToastStyles;
 	private int mToastStyleIndex;
 	private SettingClickView scv_toast_location;
+	private SettingItemView siv_blacknumber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,27 @@ public class SettingActivity extends Activity {
 		initToastStyle();
 		initToastLocation();
 		initFloatBall();
+		initBlackNumber();
+	}
+
+	private void initBlackNumber() {
+		siv_blacknumber = (SettingItemView) findViewById(R.id.siv_blacknumber);
+		boolean isRunning = ServiceUtil.isRunning(this, "com.zahowenbin.mobilesafe.service.BlackNumberService");
+		siv_blacknumber.setCheck(isRunning);
+		siv_blacknumber.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				boolean isCheck = siv_blacknumber.isCheck();
+				if(!isCheck){
+					startService(new Intent(getApplicationContext(), BlackNumberService.class));
+				} else {
+					stopService(new Intent(getApplicationContext(), BlackNumberService.class));
+				}
+				siv_blacknumber.setCheck(!isCheck);
+			}
+		});
 	}
 
 	private void initFloatBall() {
