@@ -107,4 +107,18 @@ public class BlackNumberDao {
 		db.close();
 		return mode;
 	}
+
+	public boolean findOne(String phone) {
+		SQLiteDatabase db = blackNumberOpenHelper.getWritableDatabase();
+		Cursor cursor = db.query("blacknumber", new String[]{"phone"}, "phone = ?", new String[]{phone}, null, null, null);
+		if(cursor.moveToNext()){
+			cursor.close();
+			db.close();
+			return true;
+		} else {
+			cursor.close();
+			db.close();
+			return false;
+		}	
+	}
 }

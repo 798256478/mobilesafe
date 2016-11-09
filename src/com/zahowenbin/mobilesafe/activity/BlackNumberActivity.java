@@ -21,6 +21,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -85,8 +87,19 @@ public class BlackNumberActivity extends Activity {
 			
 			@Override
 			public void onClick(View view) {
-				showAddDialog();
+				showAddDialog(null, null);
 			}
+		});
+		lv_blacknumber.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				String phone = mBlackNumberInfos.get(position).getPhone();
+				String mode2 = mBlackNumberInfos.get(position).getMode();
+				showAddDialog(phone, mode2);
+			}
+			
 		});
 		lv_blacknumber.setOnScrollListener(new OnScrollListener() {
 			/*
@@ -218,7 +231,7 @@ public class BlackNumberActivity extends Activity {
 		ImageView iv_delete_blacknumber;
 	}
 
-	protected void showAddDialog() {
+	protected void showAddDialog(String phone, String mode2) {
 		Builder builder = new AlertDialog.Builder(this);
 		alertDialog = builder.create();
 		View view = View.inflate(this, R.layout.dialog_add_blacknumber, null);
@@ -226,6 +239,20 @@ public class BlackNumberActivity extends Activity {
 		rg_intercept_mode = (RadioGroup) view.findViewById(R.id.rg_intercept_mode);
 		btn_blacknumber_submit = (Button) view.findViewById(R.id.btn_balcknumber_submit);
 		btn_blacknumber_cancel = (Button) view.findViewById(R.id.btn_balcknumber_cancel);
+		et_blacknumber.setText(phone);
+		if( mode2 !=null ){
+			switch (Integer.parseInt(mode2)) {
+			case 1:
+				rg_intercept_mode.check(R.id.rb_sms);
+				break;
+			case 2:
+				rg_intercept_mode.check(R.id.rb_phone);
+				break;
+			case 3:
+				rg_intercept_mode.check(R.id.rb_all);
+				break;
+			}
+		}
 		rg_intercept_mode.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -248,11 +275,22 @@ public class BlackNumberActivity extends Activity {
 			@Override
 			public void onClick(View view) {
 				if(!TextUtils.isEmpty(et_blacknumber.getText().toString())){
-					blackNumberDao.insert(et_blacknumber.getText().toString(), mode + "");
-					BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
-					blackNumberInfo.setPhone(et_blacknumber.getText().toString());
-					blackNumberInfo.setMode(mode + "");
-					mBlackNumberInfos.add(0, blackNumberInfo);
+					if(blackNumberDao.findOne(et_blacknumber.getText().toString())){
+						blackNumberDao.update(et_blacknumber.getText().toString(), mode + "");
+						for (BlackNumberInfo mBlackNumberInfo : mBlackNumberInfos) {
+							if(mBlackNumberInfo.getPhone().equals(et_blacknumber.getText().toString())){
+								mBlackNumberInfo.setMode(mode+"");
+							}
+						}
+						ToastUtil.show(getApplicationContext(), "修改成功");
+					} else {
+						blackNumberDao.insert(et_blacknumber.getText().toString(), mode + "");
+						BlackNumberInfo blackNumberInfo = new BlackNumberInfo();
+						blackNumberInfo.setPhone(et_blacknumber.getText().toString());
+						blackNumberInfo.setMode(mode + "");
+						mBlackNumberInfos.add(0, blackNumberInfo);
+						ToastUtil.show(getApplicationContext(), "添加成功");
+					}
 					if(adapter != null){
 						adapter.notifyDataSetChanged();
 					}
