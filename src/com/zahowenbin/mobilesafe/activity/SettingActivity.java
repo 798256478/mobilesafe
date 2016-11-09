@@ -46,7 +46,7 @@ public class SettingActivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				Boolean isCheck = SpUtil.getBoolean(getApplicationContext(), ConstantView.FLOAT_BALL, false);
+				Boolean isCheck = siv_float_ball.isCheck();
 				siv_float_ball.setCheck(!isCheck);
 				if(!isCheck){
 					startService(new Intent(getApplicationContext(), FloatBallService.class));
