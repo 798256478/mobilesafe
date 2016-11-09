@@ -42,12 +42,22 @@
 		>
     </com.zahowenbin.mobilesafe.view.SettingClickView>
     
-    	<com.zahowenbin.mobilesafe.view.SettingItemView
+    <com.zahowenbin.mobilesafe.view.SettingItemView
         xmlns:mobilesafe="http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe"
         android:id="@+id/siv_float_ball"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         mobilesafe:destitle="开启悬浮球"
+        mobilesafe:deson="(已开启)"
+        mobilesafe:desoff="(已关闭)">
+    </com.zahowenbin.mobilesafe.view.SettingItemView>
+    
+    <com.zahowenbin.mobilesafe.view.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe"
+        android:id="@+id/siv_blacknumber"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        mobilesafe:destitle="开启拦截黑名单"
         mobilesafe:deson="(已开启)"
         mobilesafe:desoff="(已关闭)">
     </com.zahowenbin.mobilesafe.view.SettingItemView>

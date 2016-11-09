@@ -92,7 +92,19 @@ public class BlackNumberDao {
 		}
 		cursor.close();
 		db.close();
-		return count;
-			
+		return count;	
+	}
+	
+	public int getModeByPhone(String phone){
+		SQLiteDatabase db = blackNumberOpenHelper.getWritableDatabase();
+		Cursor cursor = db.query("blacknumber", new String[]{"mode"}, "phone = ?", new String[]{phone}, null, null, null);
+		int mode = 0;
+		while (cursor.moveToNext()) {
+			mode = cursor.getInt(0);
+		}
+		
+		cursor.close();
+		db.close();
+		return mode;
 	}
 }
