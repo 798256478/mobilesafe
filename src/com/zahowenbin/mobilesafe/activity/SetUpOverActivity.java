@@ -18,13 +18,14 @@ public class SetUpOverActivity extends Activity {
 		Boolean setUpOver = SpUtil.getBoolean(this, ConstantView.SETUPOVER, false);
 		if(setUpOver){
 			setContentView(R.layout.activity_set_up_over);
+			initUI();
 		} else {
 			Intent intent = new Intent(this, SetUp1Activity.class);
 			startActivity(intent);
 			finish();
 		}
 		
-		initUI();
+		
 	}
 
 	private void initUI() {

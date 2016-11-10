@@ -43,7 +43,7 @@ public class AtoolsActivity extends Activity{
 		final ProgressDialog progressDialog = new ProgressDialog(this);
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progressDialog.setTitle("正在备份");
-		progressDialog.show();
+		
 		new Thread(){
 			public void run() {
 				String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "smsBack.xml";
@@ -51,6 +51,7 @@ public class AtoolsActivity extends Activity{
 					
 					@Override
 					public void setProgress(int index) {
+						progressDialog.show();
 						progressDialog.setProgress(index);
 					}
 					

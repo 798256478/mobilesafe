@@ -111,7 +111,6 @@ public class SettingActivity extends Activity {
 
 	protected void showToastDialog() {
 		Builder builder = new AlertDialog.Builder(this);
-		builder.setIcon(R.drawable.ic_launcher);
 		builder.setTitle("请选择吐司样式");
 		mToastStyleIndex = SpUtil.getInt(this, ConstantView.TOAST_VIEW, 0);
 		builder.setSingleChoiceItems(mToastStyles, mToastStyleIndex, new DialogInterface.OnClickListener() {

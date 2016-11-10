@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import org.xmlpull.v1.XmlSerializer;
 
+import com.zahowenbin.mobilesafe.utils.ToastUtil;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,43 +24,48 @@ public class SmsBackUp {
 			File file = new File(path);
 			fos = new FileOutputStream(file);
 			int count = cursor.getCount();
-			if(callBack != null){
-				callBack.setMax(count);
-			}
-			XmlSerializer xmlSerializer = Xml.newSerializer();
-			xmlSerializer.setOutput(fos, "utf-8");
-			xmlSerializer.startDocument("utf-8", true);
-			xmlSerializer.startTag(null, "smss");
-			while (cursor .moveToNext()) {
-				
-				xmlSerializer.startTag(null, "sms");
-				
-				xmlSerializer.startTag(null, "address");
-				xmlSerializer.text(cursor .getString(0));
-				xmlSerializer.endTag(null, "address");
-				
-				xmlSerializer.startTag(null, "date");
-				xmlSerializer.text(cursor .getString(1));
-				xmlSerializer.endTag(null, "date");
-				
-				xmlSerializer.startTag(null, "type");
-				xmlSerializer.text(cursor .getString(2));
-				xmlSerializer.endTag(null, "type");
-				
-				xmlSerializer.startTag(null, "body");
-				xmlSerializer.text(cursor .getString(3));
-				xmlSerializer.endTag(null, "body");
-				
-				xmlSerializer.endTag(null, "sms");
-				
-				index++;
+			ToastUtil.show(context, count+"");
+			if(count>0){
 				if(callBack != null){
-					callBack.setProgress(index);
+					callBack.setMax(count);
 				}
-				Thread.sleep(100);
+				XmlSerializer xmlSerializer = Xml.newSerializer();
+				xmlSerializer.setOutput(fos, "utf-8");
+				xmlSerializer.startDocument("utf-8", true);
+				xmlSerializer.startTag(null, "smss");
+				while (cursor .moveToNext()) {
+					
+					xmlSerializer.startTag(null, "sms");
+					
+					xmlSerializer.startTag(null, "address");
+					xmlSerializer.text(cursor .getString(0));
+					xmlSerializer.endTag(null, "address");
+					
+					xmlSerializer.startTag(null, "date");
+					xmlSerializer.text(cursor .getString(1));
+					xmlSerializer.endTag(null, "date");
+					
+					xmlSerializer.startTag(null, "type");
+					xmlSerializer.text(cursor .getString(2));
+					xmlSerializer.endTag(null, "type");
+					
+					xmlSerializer.startTag(null, "body");
+					xmlSerializer.text(cursor .getString(3));
+					xmlSerializer.endTag(null, "body");
+					
+					xmlSerializer.endTag(null, "sms");
+					
+					index++;
+					if(callBack != null){
+						callBack.setProgress(index);
+					}
+					Thread.sleep(100);
+				}
+				xmlSerializer.endTag(null, "smss");
+				xmlSerializer.endDocument();
+			} else {
+				ToastUtil.show(context, "没有短信，无需备份");
 			}
-			xmlSerializer.endTag(null, "smss");
-			xmlSerializer.endDocument();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
