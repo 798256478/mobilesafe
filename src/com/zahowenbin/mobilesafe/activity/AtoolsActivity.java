@@ -6,6 +6,7 @@ import java.io.File;
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.engine.SmsBackUp;
 import com.zahowenbin.mobilesafe.engine.SmsBackUp.CallBack;
+import com.zahowenbin.mobilesafe.utils.ToastUtil;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -58,6 +59,7 @@ public class AtoolsActivity extends Activity{
 						progressDialog.setMax(max);
 					}
 				});
+				progressDialog.dismiss();
 			};
 		}.start();
 	}

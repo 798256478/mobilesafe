@@ -55,7 +55,7 @@ public class SmsBackUp {
 				if(callBack != null){
 					callBack.setProgress(index);
 				}
-				Thread.sleep(500);
+				Thread.sleep(100);
 			}
 			xmlSerializer.endTag(null, "smss");
 			xmlSerializer.endDocument();
