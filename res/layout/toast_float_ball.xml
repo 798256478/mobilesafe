@@ -4,10 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-   	<ImageView 
-   	    android:id="@+id/iv_float_ball"
-   	    android:layout_height="wrap_content"
-   	    android:layout_width="wrap_content"
-   	    android:background="@drawable/float_ball_animation_bg"/>
+    <TextView 
+        android:id="@+id/iv_float_ball"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="5dp"
+        android:background="@drawable/float_ball_bg"
+        android:text="66%"
+        android:textColor="#333"
+        android:textSize="12sp"
+        android:gravity="center"/>
 
 </LinearLayout>

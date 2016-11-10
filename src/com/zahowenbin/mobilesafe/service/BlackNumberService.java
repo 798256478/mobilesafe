@@ -12,6 +12,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
@@ -22,6 +25,9 @@ public class BlackNumberService extends Service {
 	
 	private InnerSmsReceiver mInnerSmsReceiver;
 	private BlackNumberDao mBlackNumberDao;
+	private mContentOberver mContentOberver;
+	private TelephonyManager telephonyManager;
+	private MyPhoneListener myPhoneListener;
 
 	@Override
 	public void onCreate() {
@@ -35,9 +41,8 @@ public class BlackNumberService extends Service {
 		mInnerSmsReceiver = new InnerSmsReceiver();
 		registerReceiver(mInnerSmsReceiver, intentFilter);//注册服务
 		
-		//拦截电话
-		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-		MyPhoneListener myPhoneListener = new MyPhoneListener();
+		telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		myPhoneListener = new MyPhoneListener();
 		telephonyManager.listen(myPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
 	}
 	
@@ -55,7 +60,7 @@ public class BlackNumberService extends Service {
 				
 				break;
 			case TelephonyManager.CALL_STATE_RINGING:
-				endCall(incomingNumber);
+				endCall(incomingNumber);//挂断电话			
 				break;
 			}
 		}
@@ -101,8 +106,30 @@ public class BlackNumberService extends Service {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			mContentOberver = new mContentOberver(new Handler(), incomingNumber);
+			getContentResolver().registerContentObserver(Uri.parse("content://call_log/calls/"), true, mContentOberver);
 		}
 	}
+	
+	class mContentOberver extends ContentObserver{
+		private String incomingNumber;
+		
+		public mContentOberver(Handler handler, String incomingNumber) {
+			super(handler);
+			this.incomingNumber = incomingNumber;
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public void onChange(boolean selfChange) {
+			// TODO Auto-generated method stub
+			super.onChange(selfChange);
+			getContentResolver().delete(Uri.parse("content://call_log/calls/"), "number = ?", new String[]{incomingNumber});
+		}
+		
+	}
+	
 
 	@Override
 	public void onDestroy() {
@@ -110,6 +137,13 @@ public class BlackNumberService extends Service {
 		super.onDestroy();
 		if(mInnerSmsReceiver != null){
 			unregisterReceiver(mInnerSmsReceiver);
+		}
+		if(mContentOberver != null){
+			getContentResolver().unregisterContentObserver(mContentOberver);
+		}
+		
+		if(myPhoneListener != null){
+			telephonyManager.listen(myPhoneListener, PhoneStateListener.LISTEN_NONE);
 		}
 		
 	}

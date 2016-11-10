@@ -20,6 +20,10 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
 
     <application
         android:allowBackup="true"
@@ -64,6 +68,8 @@
             />
          <activity
             android:name="com.zahowenbin.mobilesafe.activity.BlackNumberActivity" />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.AppManagerActivity" />
         <receiver 
             android:name="com.zahowenbin.mobilesafe.receiver.BootReceiver">
             <intent-filter>

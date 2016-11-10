@@ -35,13 +35,16 @@ public class FloatBallService extends Service {
 	private int mScreenwidth;
 	private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
 	private View mFloatBallView;
-	private ImageView iv_float_ball;
+	private TextView iv_float_ball;
+	private AnimationDrawable mAnimationDrawable;
 	private WindowManager.LayoutParams params;
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			if((Integer)msg.obj == 0){
 		        params.x = SpUtil.getInt(getApplicationContext(), ConstantView.FLOAT_BALL_lOCATIONX, 0);
 		        params.y = SpUtil.getInt(getApplicationContext(), ConstantView.FLOAT_BALL_lOCATIONY, 0);
+		        iv_float_ball.setText("66%");
+		        iv_float_ball.setBackgroundResource(R.drawable.float_ball_bg);
 			}else{
 				params.y = (Integer) msg.obj;
 			}
@@ -73,12 +76,10 @@ public class FloatBallService extends Service {
         params.y = SpUtil.getInt(this, ConstantView.FLOAT_BALL_lOCATIONY, 0);
         mFloatBallView = View.inflate(this, R.layout.toast_float_ball, null);
         
-        /*
-         * 使动态背景图片动起来
-         */
-        iv_float_ball = (ImageView) mFloatBallView.findViewById(R.id.iv_float_ball);
-        AnimationDrawable animationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
-        animationDrawable.start();
+       
+        
+        iv_float_ball = (TextView) mFloatBallView.findViewById(R.id.iv_float_ball);
+        
 
         mWindowManager.addView(mFloatBallView, params);	
         iv_float_ball.setOnTouchListener(new OnTouchListener() {
@@ -88,10 +89,20 @@ public class FloatBallService extends Service {
 			private int mMoveX;
 			private int mMoveY;
 
+
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
+					mWindowManager.updateViewLayout(mFloatBallView, params);
+					iv_float_ball.setText("");
+					iv_float_ball.setBackgroundResource(R.drawable.float_ball_animation_bg);
+					 /*
+			         * 使动态背景图片动起来
+			         */
+					mAnimationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
+			        mAnimationDrawable.start();
+					mWindowManager.updateViewLayout(mFloatBallView, params);
 					mStartX =(int) event.getRawX();
 					mStartY =(int) event.getRawY();
 					break;
@@ -123,7 +134,6 @@ public class FloatBallService extends Service {
 					mStartY =(int) event.getRawY();
 					break;
 				case MotionEvent.ACTION_UP:
-					
 					if((params.x + iv_float_ball.getWidth() ) > (mScreenwidth/3) && (params.x + iv_float_ball.getWidth() )< (mScreenwidth/3)*2 && params.y > mScreenHeight - 50 - iv_float_ball.getHeight()){
 						Intent intent = new Intent(getApplicationContext(), RocketBgActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -131,8 +141,10 @@ public class FloatBallService extends Service {
 						startActivity(intent);
 						sendRocket();
 					}else {
+						iv_float_ball.setText("66%");
+						iv_float_ball.setBackgroundResource(R.drawable.float_ball_bg);
 						if(params.x>mScreenwidth/2){
-							params.x = mScreenwidth - iv_float_ball.getWidth();
+							params.x = mScreenwidth - 35;
 						} else if(params.x<mScreenwidth/2){
 							params.x = 0;
 						}
