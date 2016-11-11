@@ -25,10 +25,23 @@
             android:layout_alignParentRight="true"
             android:text="SD卡可用空间"/>
     </RelativeLayout>
-    <ListView 
-        android:id="@+id/lv_applist"
-        android:layout_width="match_parent"
+    
+    <FrameLayout 
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        >
+        <ListView 
+	        android:id="@+id/lv_applist"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
         ></ListView>
-
+        <TextView 
+		    android:id="@+id/tv_app_float_title"
+		    android:layout_height="wrap_content"
+		    android:layout_width="match_parent"
+		    android:padding="5dp"
+		    android:textColor="#333"
+		    android:background="#999"
+	    />
+    </FrameLayout>
 </LinearLayout>

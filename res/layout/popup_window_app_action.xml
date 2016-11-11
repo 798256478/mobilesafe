@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    <Button 
+        android:id="@+id/btn_boot"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="启动"/>
+    <Button 
+        android:id="@+id/btn_uninstall"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="卸载"/>
+    <Button 
+        android:id="@+id/btn_share"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="分享"/>
+	
+</LinearLayout>
