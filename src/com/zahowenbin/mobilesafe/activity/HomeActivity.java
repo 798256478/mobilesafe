@@ -65,6 +65,9 @@ public class HomeActivity extends Activity {
 					break;
 				case 2:
 					startActivity(new Intent(getApplicationContext(), AppManagerActivity.class));
+					break;
+				case 3:
+					startActivity(new Intent(getApplicationContext(), ProcessManagerActivity.class));
 					break;	
 				case 7:
 					Intent intent2 = new Intent(getApplicationContext(), AtoolsActivity.class);

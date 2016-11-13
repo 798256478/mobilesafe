@@ -13,6 +13,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -46,7 +47,7 @@ public class AppManagerActivity extends Activity {
 	private List<AppInfo> mSystemAppList;
 	private List<AppInfo> mConstumAppList;
 	private TextView tv_app_float_title;
-	
+	private AppInfo mAppinfo;
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			MyAdapter myAdapter = new MyAdapter();
@@ -56,6 +57,7 @@ public class AppManagerActivity extends Activity {
 			}
 		};
 	};
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,24 +69,6 @@ public class AppManagerActivity extends Activity {
 	}
 
 	private void initData() {
-		new Thread(){
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				super.run();
-				mAppInfoList = AppInfoProvider.getAppInfoList(getApplicationContext());
-				mSystemAppList = new ArrayList<AppInfo>();
-				mConstumAppList = new ArrayList<AppInfo>();
-				for (AppInfo appInfo : mAppInfoList) {
-					if(appInfo.isSystem){
-						mSystemAppList.add(appInfo);
-					} else {
-						mConstumAppList.add(appInfo);
-					}
-				}
-				mHandler.sendEmptyMessage(0);
-			}
-		}.start();
 		lv_applist.setOnScrollListener(new OnScrollListener() {
 			
 			@Override
@@ -112,20 +96,26 @@ public class AppManagerActivity extends Activity {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				if(position != 0 && position != mConstumAppList.size() +1){
+					if(position < mConstumAppList.size()+1){
+						mAppinfo = mConstumAppList.get(position - 1);
+					} else {
+						mAppinfo = mSystemAppList.get(position - mConstumAppList.size() - 2);
+					}
 					showPopUpWindow(view);
 				}
 			}
 		});
 	}
 
-	protected void showPopUpWindow(View view) {
+	private void showPopUpWindow(View view) {
 		View popUpView = View.inflate(this, R.layout.popup_window_app_action, null);
-		Button btn_boot = (Button) popUpView.findViewById(R.id.btn_boot);
-		Button btn_uninstall = (Button) popUpView.findViewById(R.id.btn_uninstall);
-		Button btn_share = (Button) popUpView.findViewById(R.id.btn_share);
-		PopupWindow popupWindow = new PopupWindow(popUpView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+		ImageView btn_boot = (ImageView) popUpView.findViewById(R.id.iv_boot);
+		ImageView btn_uninstall = (ImageView) popUpView.findViewById(R.id.iv_uninstall);
+		ImageView btn_share = (ImageView) popUpView.findViewById(R.id.iv_share);
+		final PopupWindow popupWindow = new PopupWindow(popUpView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());
-		popupWindow.showAsDropDown(view, 125, -view.getHeight() + 15, Gravity.CENTER);
+		ImageView iv_app_icon = (ImageView) view.findViewById(R.id.iv_app_icon);
+		popupWindow.showAsDropDown(view, iv_app_icon.getWidth() + 20, -view.getHeight() + 10, Gravity.CENTER);
 		AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
 		alphaAnimation.setDuration(500);
 		ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1, 1, 1);
@@ -139,26 +129,39 @@ public class AppManagerActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				PackageManager packageManager = getPackageManager();
-				/*Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(tv_app_package_name.getText().toString());
+				Intent launchIntentForPackage = packageManager.getLaunchIntentForPackage(mAppinfo.getPackageName());
 				if(launchIntentForPackage != null){
 					startActivity(launchIntentForPackage);
 				} else {
 					ToastUtil.show(getApplicationContext(), "此程序无法启动");
-				}*/
+				}
+				popupWindow.dismiss();
 			}
 		});
 		btn_uninstall.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				if(mAppinfo.isSystem){
+					ToastUtil.show(getApplicationContext(), "此应用不能卸载");
+				}else{
+					Intent intent = new Intent("android.intent.action.DELETE");
+					intent.addCategory("android.intent.category.DEFAULT");
+					intent.setData(Uri.parse("package:"+mAppinfo.getPackageName()));
+					startActivity(intent);
+				}
+				popupWindow.dismiss();
 			}
 		});
 		btn_share.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				
+				Intent intent = new Intent(Intent.ACTION_SEND);
+				intent.putExtra(Intent.EXTRA_TEXT, "分享一个应用，应用名是" + mAppinfo.name);
+				intent.setType("text/plain");
+				startActivity(intent);
+				popupWindow.dismiss();
 			}
 		});
 	}
@@ -273,6 +276,35 @@ public class AppManagerActivity extends Activity {
 		//statFs.getBlockCount();区块的总量
 		
 		return availAbleBlocks * blockCount;
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getData();
+		
+	}
+
+	private void getData() {
+		new Thread(){
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				super.run();
+				mAppInfoList = AppInfoProvider.getAppInfoList(getApplicationContext());
+				mSystemAppList = new ArrayList<AppInfo>();
+				mConstumAppList = new ArrayList<AppInfo>();
+				for (AppInfo appInfo : mAppInfoList) {
+					if(appInfo.isSystem){
+						mSystemAppList.add(appInfo);
+					} else {
+						mConstumAppList.add(appInfo);
+					}
+				}
+				mHandler.sendEmptyMessage(0);
+			}
+		}.start();
 	}
 	
 	
