@@ -15,4 +15,6 @@ public class ConstantView {
 	public static final String FLOAT_BALL_lOCATIONX = "float_ball_locationX";
 	public static final String FLOAT_BALL_lOCATIONY = "float_ball_locationY";
 	public static final String OPEN_ADDRESS = "open_address";
+	public static final String SHOW_SYSTEM = "show_system";
+	public static final String LOCK_SCREEN_CLEAN = "locak_screen_clean";
 }

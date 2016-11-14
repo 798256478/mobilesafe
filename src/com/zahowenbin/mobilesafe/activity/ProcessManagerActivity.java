@@ -11,9 +11,12 @@ import com.zahowenbin.mobilesafe.db.domain.AppInfo;
 import com.zahowenbin.mobilesafe.db.domain.ProgressInfo;
 import com.zahowenbin.mobilesafe.engine.AppInfoProvider;
 import com.zahowenbin.mobilesafe.engine.ProgressInfoProvider;
+import com.zahowenbin.mobilesafe.utils.ConstantView;
+import com.zahowenbin.mobilesafe.utils.SpUtil;
 import com.zahowenbin.mobilesafe.utils.ToastUtil;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StatFs;
@@ -89,7 +92,9 @@ public class ProcessManagerActivity extends Activity {
 				for (ProgressInfo systemProgressInfo : mSystemProgressList) {
 					systemProgressInfo.isCheck = true;
 				}
-				myAdapter.notifyDataSetChanged();
+				if(myAdapter != null){					
+					myAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 		btn_select_inverse.setOnClickListener(new OnClickListener() {
@@ -104,7 +109,9 @@ public class ProcessManagerActivity extends Activity {
 				for (ProgressInfo systemProgressInfo : mSystemProgressList) {
 					systemProgressInfo.isCheck = !systemProgressInfo.isCheck;
 				}
-				myAdapter.notifyDataSetChanged();
+				if(myAdapter != null){					
+					myAdapter.notifyDataSetChanged();
+				}
 			}
 		});
 		btn_clean.setOnClickListener(new OnClickListener() {
@@ -134,11 +141,21 @@ public class ProcessManagerActivity extends Activity {
 					}
 					ProgressInfoProvider.cleanProgress(getApplicationContext(), progressInfo);
 				}
-				myAdapter.notifyDataSetChanged();
+				if(myAdapter != null){					
+					myAdapter.notifyDataSetChanged();
+				}
 				tv_progress_count.setText("当前运行内存：" + (mProgressTotal - tempList.size()));
 				tv_ram_memory.setText("内存可用/总数：" + 
 				Formatter.formatFileSize(getApplicationContext(), availSpace += cleanSpace) + "/"+ mTotalSpace);
 				ToastUtil.show(getApplicationContext(), "清除"+ tempList.size() +"个进程,释放"+ Formatter.formatFileSize(getApplicationContext(), cleanSpace) +"空间");
+			}
+		});
+		btn_setting.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(),ProcessSettingActivity.class);
+				startActivityForResult(intent, 0);
 			}
 		});
 		
@@ -170,20 +187,28 @@ public class ProcessManagerActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(position != 0 && position != mConstumProgressList.size() +1){
 					CheckBox cb_progress = (CheckBox) view.findViewById(R.id.cb_progress);
-					if(mConstumProgressList.get(position - 1).getPackageNmae().equals(getPackageName())){
-						if(position < mConstumProgressList.size()+1){
+					if(position < mConstumProgressList.size()+1){
+						if(!mConstumProgressList.get(position - 1).getPackageNmae().equals(getPackageName())){
 							Boolean isCheck = !mConstumProgressList.get(position - 1).isCheck;
 							cb_progress.setChecked(isCheck);
 							mConstumProgressList.get(position - 1).isCheck = isCheck;
-						} else {
-							Boolean isCheck = !mSystemProgressList.get(position - mConstumProgressList.size() - 2).isCheck;
-							cb_progress.setChecked(isCheck);
-							mSystemProgressList.get(position - mConstumProgressList.size() - 2).isCheck = isCheck;
 						}
+					} else {
+						Boolean isCheck = !mSystemProgressList.get(position - mConstumProgressList.size() - 2).isCheck;
+						cb_progress.setChecked(isCheck);
+						mSystemProgressList.get(position - mConstumProgressList.size() - 2).isCheck = isCheck;
 					}
 				}
 			}
 		});
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(myAdapter != null){
+			myAdapter.notifyDataSetChanged();
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private void initData() {
@@ -229,8 +254,12 @@ public class ProcessManagerActivity extends Activity {
 		
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
-			return mConstumProgressList.size() + mSystemProgressList.size() + 2;
+			Boolean show_system = SpUtil.getBoolean(getApplicationContext(), ConstantView.SHOW_SYSTEM, false);
+			if(show_system){
+				return mConstumProgressList.size() + mSystemProgressList.size() + 2;
+			} else {
+				return mConstumProgressList.size() + 1;
+			}
 		}
 
 		@Override

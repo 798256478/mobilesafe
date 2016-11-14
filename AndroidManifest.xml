@@ -73,6 +73,8 @@
             android:name="com.zahowenbin.mobilesafe.activity.AppManagerActivity" />
          <activity
             android:name="com.zahowenbin.mobilesafe.activity.ProcessManagerActivity" />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.ProcessSettingActivity" />
         <receiver 
             android:name="com.zahowenbin.mobilesafe.receiver.BootReceiver">
             <intent-filter>
@@ -89,6 +91,7 @@
         <service android:name="com.zahowenbin.mobilesafe.service.LocationService"></service>
         <service android:name="com.zahowenbin.mobilesafe.service.FloatBallService"></service>
         <service android:name="com.zahowenbin.mobilesafe.service.BlackNumberService"></service>
+        <service android:name="com.zahowenbin.mobilesafe.service.LockScreenService"></service>
     </application>
 
 </manifest>

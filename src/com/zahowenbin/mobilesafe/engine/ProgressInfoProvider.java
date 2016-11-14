@@ -99,4 +99,12 @@ public class ProgressInfoProvider {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 		activityManager.killBackgroundProcesses(progressInfo.packageNmae);
 	}
+
+	public static void cleanAllProcess(Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
+		for (RunningAppProcessInfo runningAppProcessInfo : runningAppProcesses) {
+			activityManager.killBackgroundProcesses(runningAppProcessInfo.processName);
+		}
+	}
 }
