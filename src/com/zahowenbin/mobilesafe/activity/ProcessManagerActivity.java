@@ -4,12 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.zahowenbin.mobilesafe.R;
-import com.zahowenbin.mobilesafe.activity.AppManagerActivity.MyAdapter;
-import com.zahowenbin.mobilesafe.activity.AppManagerActivity.ViewHolderer;
-import com.zahowenbin.mobilesafe.activity.AppManagerActivity.ViewTitleHolder;
-import com.zahowenbin.mobilesafe.db.domain.AppInfo;
 import com.zahowenbin.mobilesafe.db.domain.ProgressInfo;
-import com.zahowenbin.mobilesafe.engine.AppInfoProvider;
 import com.zahowenbin.mobilesafe.engine.ProgressInfoProvider;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
@@ -19,7 +14,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StatFs;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +56,6 @@ public class ProcessManagerActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_process_manager);
 		initData();
@@ -163,7 +156,6 @@ public class ProcessManagerActivity extends Activity {
 			
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -184,7 +176,6 @@ public class ProcessManagerActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				if(position != 0 && position != mConstumProgressList.size() +1){
 					CheckBox cb_progress = (CheckBox) view.findViewById(R.id.cb_progress);
 					if(position < mConstumProgressList.size()+1){
@@ -220,7 +211,6 @@ public class ProcessManagerActivity extends Activity {
 		new Thread(){
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				super.run();
 				mProgressInfoList = ProgressInfoProvider.getProgressInfoList(getApplicationContext());
 				mSystemProgressList = new ArrayList<ProgressInfo>();
@@ -239,7 +229,6 @@ public class ProcessManagerActivity extends Activity {
 	class MyAdapter extends BaseAdapter{
 		@Override
 		public int getViewTypeCount() {
-			// TODO Auto-generated method stub
 			return super.getViewTypeCount() + 1;
 		}
 		
@@ -264,7 +253,6 @@ public class ProcessManagerActivity extends Activity {
 
 		@Override
 		public ProgressInfo getItem(int position) {
-			// TODO Auto-generated method stub
 			if(position > 0 && position < mConstumProgressList.size()+1){
 				return mConstumProgressList.get(position - 1);
 			} else if(position > mConstumProgressList.size()+1){
@@ -275,13 +263,12 @@ public class ProcessManagerActivity extends Activity {
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if(getItemViewType(position) == 0){
 				ViewTitleHolder viewTitleHolder = null;
 				if(convertView == null){

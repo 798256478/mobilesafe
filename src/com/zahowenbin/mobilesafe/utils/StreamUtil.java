@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.util.Log;
-
 public class StreamUtil {
     /**
      * Œ¢IOÁ÷ÞD»¯³É×Ö·û´®

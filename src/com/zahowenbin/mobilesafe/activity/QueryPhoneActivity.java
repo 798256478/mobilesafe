@@ -2,15 +2,12 @@ package com.zahowenbin.mobilesafe.activity;
 
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.engine.QueryAddressDao;
-
-import android.R.string;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -35,7 +32,6 @@ public class QueryPhoneActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_query_phone);
 		initUI();
@@ -76,7 +72,6 @@ public class QueryPhoneActivity extends Activity {
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 					int arg3) {
-				// TODO Auto-generated method stub
 				
 			}
 			

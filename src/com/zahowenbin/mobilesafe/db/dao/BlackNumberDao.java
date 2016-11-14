@@ -2,13 +2,10 @@ package com.zahowenbin.mobilesafe.db.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.R.integer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.zahowenbin.mobilesafe.db.BlackNumberOpenHelper;
 import com.zahowenbin.mobilesafe.db.domain.BlackNumberInfo;
 

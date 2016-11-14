@@ -1,17 +1,11 @@
 package com.zahowenbin.mobilesafe.activity;
 
 import com.zahowenbin.mobilesafe.R;
-import com.zahowenbin.mobilesafe.utils.ConstantView;
-import com.zahowenbin.mobilesafe.utils.SpUtil;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 public class RocketBgActivity extends Activity {
 	private ImageView iv_rocket_bg_top;
@@ -25,7 +19,6 @@ public class RocketBgActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rocket_bg);
 		iv_rocket_bg_top = (ImageView) findViewById(R.id.iv_rocket_bg_top);

@@ -13,7 +13,6 @@ import com.zahowenbin.mobilesafe.view.SettingItemView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ public class SettingActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		
@@ -49,7 +47,6 @@ public class SettingActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				boolean isCheck = siv_blacknumber.isCheck();
 				if(!isCheck){
 					startService(new Intent(getApplicationContext(), BlackNumberService.class));

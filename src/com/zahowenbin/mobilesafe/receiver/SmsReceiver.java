@@ -23,7 +23,7 @@ public class SmsReceiver extends BroadcastReceiver {
 				//获取短信对象
 				SmsMessage sms = SmsMessage.createFromPdu((byte[])object);
 				//获取短信对象的基本信息
-				String originatingAddress = sms.getOriginatingAddress();
+				//String originatingAddress = sms.getOriginatingAddress();
 				String messageBody = sms.getMessageBody();
 				if(messageBody.contains("#*alarm*#")){
 					MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.ylzs);

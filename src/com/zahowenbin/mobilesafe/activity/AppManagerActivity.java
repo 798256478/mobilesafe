@@ -9,7 +9,6 @@ import com.zahowenbin.mobilesafe.engine.AppInfoProvider;
 import com.zahowenbin.mobilesafe.utils.ToastUtil;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
@@ -32,7 +30,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -61,7 +58,6 @@ public class AppManagerActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_manager);
 		initUI();
@@ -73,7 +69,6 @@ public class AppManagerActivity extends Activity {
 			
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// TODO Auto-generated method stub
 				
 			}
 			
@@ -94,7 +89,6 @@ public class AppManagerActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				// TODO Auto-generated method stub
 				if(position != 0 && position != mConstumAppList.size() +1){
 					if(position < mConstumAppList.size()+1){
 						mAppinfo = mConstumAppList.get(position - 1);
@@ -107,6 +101,7 @@ public class AppManagerActivity extends Activity {
 		});
 	}
 
+	@SuppressWarnings("deprecation")
 	private void showPopUpWindow(View view) {
 		View popUpView = View.inflate(this, R.layout.popup_window_app_action, null);
 		ImageView btn_boot = (ImageView) popUpView.findViewById(R.id.iv_boot);
@@ -182,7 +177,6 @@ public class AppManagerActivity extends Activity {
 	class MyAdapter extends BaseAdapter{
 		@Override
 		public int getViewTypeCount() {
-			// TODO Auto-generated method stub
 			return super.getViewTypeCount() + 1;
 		}
 		
@@ -197,13 +191,11 @@ public class AppManagerActivity extends Activity {
 		
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return mAppInfoList.size() + 2;
 		}
 
 		@Override
 		public AppInfo getItem(int position) {
-			// TODO Auto-generated method stub
 			if(position > 0 && position < mConstumAppList.size()+1){
 				return mConstumAppList.get(position - 1);
 			} else if(position > mConstumAppList.size()+1){
@@ -214,13 +206,12 @@ public class AppManagerActivity extends Activity {
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
 			if(getItemViewType(position) == 0){
 				ViewTitleHolder viewTitleHolder = null;
 				if(convertView == null){
@@ -271,7 +262,9 @@ public class AppManagerActivity extends Activity {
 	private long getAvailSpace(String path){
 		//获取可用磁盘类的对象
 		StatFs statFs = new StatFs(path);
+		@SuppressWarnings("deprecation")
 		long availAbleBlocks = statFs.getAvailableBlocks(); //可用区块的数量
+		@SuppressWarnings("deprecation")
 		long blockCount = statFs.getBlockSize();  //每个区块的大小
 		//statFs.getBlockCount();区块的总量
 		
@@ -280,7 +273,6 @@ public class AppManagerActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		getData();
 		
@@ -290,7 +282,6 @@ public class AppManagerActivity extends Activity {
 		new Thread(){
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				super.run();
 				mAppInfoList = AppInfoProvider.getAppInfoList(getApplicationContext());
 				mSystemAppList = new ArrayList<AppInfo>();

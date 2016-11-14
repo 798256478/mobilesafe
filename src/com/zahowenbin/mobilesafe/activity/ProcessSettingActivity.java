@@ -5,11 +5,9 @@ import com.zahowenbin.mobilesafe.service.LockScreenService;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.ServiceUtil;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -20,7 +18,6 @@ public class ProcessSettingActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_process_setting);
 		initShowSystem();

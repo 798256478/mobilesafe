@@ -12,14 +12,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 public class SetUp2Activity extends Activity {
 	private SettingItemView siv_bind;
-	private static final String tag = "SetUp2Activity";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -1,12 +1,8 @@
 package com.zahowenbin.mobilesafe.service;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
-
 import com.android.internal.telephony.ITelephony;
 import com.zahowenbin.mobilesafe.db.dao.BlackNumberDao;
-import com.zahowenbin.mobilesafe.utils.ToastUtil;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -19,7 +15,6 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
-import android.widget.Switch;
 
 public class BlackNumberService extends Service {
 	
@@ -31,7 +26,6 @@ public class BlackNumberService extends Service {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 		mBlackNumberDao = BlackNumberDao.getInstance(getApplicationContext());
 		
@@ -49,7 +43,6 @@ public class BlackNumberService extends Service {
 	class MyPhoneListener extends PhoneStateListener {
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
-			// TODO Auto-generated method stub
 			super.onCallStateChanged(state, incomingNumber);
 			switch (state) {
 			case TelephonyManager.CALL_STATE_IDLE:
@@ -87,7 +80,6 @@ public class BlackNumberService extends Service {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -103,7 +95,6 @@ public class BlackNumberService extends Service {
 				ITelephony iTelephony = ITelephony.Stub.asInterface(iBinder);
 				iTelephony.endCall();
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -118,12 +109,10 @@ public class BlackNumberService extends Service {
 		public mContentOberver(Handler handler, String incomingNumber) {
 			super(handler);
 			this.incomingNumber = incomingNumber;
-			// TODO Auto-generated constructor stub
 		}
 		
 		@Override
 		public void onChange(boolean selfChange) {
-			// TODO Auto-generated method stub
 			super.onChange(selfChange);
 			getContentResolver().delete(Uri.parse("content://call_log/calls/"), "number = ?", new String[]{incomingNumber});
 		}
@@ -133,7 +122,6 @@ public class BlackNumberService extends Service {
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		if(mInnerSmsReceiver != null){
 			unregisterReceiver(mInnerSmsReceiver);

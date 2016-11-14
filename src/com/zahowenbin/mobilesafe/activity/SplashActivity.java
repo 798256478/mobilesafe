@@ -1,6 +1,5 @@
 package com.zahowenbin.mobilesafe.activity;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -12,28 +11,20 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.zahowenbin.mobilesafe.R;
-import com.zahowenbin.mobilesafe.R.id;
-import com.zahowenbin.mobilesafe.R.layout;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
 import com.zahowenbin.mobilesafe.utils.StreamUtil;
@@ -49,7 +40,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
 public class SplashActivity extends Activity {
@@ -190,7 +180,6 @@ public class SplashActivity extends Activity {
 				fos.write(array, 0, temp);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(is != null && fos != null){
@@ -198,7 +187,6 @@ public class SplashActivity extends Activity {
 					is.close();
 					fos.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -237,7 +225,6 @@ public class SplashActivity extends Activity {
 			
 			@Override
 			public void onCancel(DialogInterface dialog) {
-				// TODO Auto-generated method stub
 				enterHome();
 				dialog.dismiss();
 			}
@@ -261,7 +248,6 @@ public class SplashActivity extends Activity {
 				
 				@Override
 				public void onFailure(HttpException exception, String s) {//下载失败
-					// TODO Auto-generated method stub
 					Log.i(tag, "下载失败");
 					Log.i(tag, exception+"");
 					Log.i(tag, s);
@@ -269,14 +255,12 @@ public class SplashActivity extends Activity {
 				
 				@Override
 				public void onStart() {//开始下载
-					// TODO Auto-generated method stub
 					Log.i(tag, "开始下载");
 					super.onStart();
 				}
 				
 				@Override
 				public void onLoading(long total, long current,boolean isUploading) {//下载过程中
-					// TODO Auto-generated method stub
 					Log.i(tag, "total = " + total); //下载总量
 					Log.i(tag, "current = " + current);//当前下载量
 					Log.i(tag, "isUploading = " + isUploading);//是否正在下载

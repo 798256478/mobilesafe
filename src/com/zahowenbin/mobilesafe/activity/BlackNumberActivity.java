@@ -1,15 +1,11 @@
 package com.zahowenbin.mobilesafe.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
+import java.util.List;
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.db.dao.BlackNumberDao;
 import com.zahowenbin.mobilesafe.db.domain.BlackNumberInfo;
 import com.zahowenbin.mobilesafe.utils.ToastUtil;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -61,7 +57,6 @@ public class BlackNumberActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_blacknumber_list);
 		initUI();
@@ -151,7 +146,6 @@ public class BlackNumberActivity extends Activity {
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -167,13 +161,11 @@ public class BlackNumberActivity extends Activity {
 
 		@Override
 		public Object getItem(int position) {
-			// TODO Auto-generated method stub
 			return mBlackNumberInfos.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 		

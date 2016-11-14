@@ -2,31 +2,21 @@ package com.zahowenbin.mobilesafe.service;
 
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.activity.RocketBgActivity;
-import com.zahowenbin.mobilesafe.service.AddressService.MyPhoneSteteListener;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
-import com.zahowenbin.mobilesafe.utils.ToastUtil;
-
-import android.R.integer;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FloatBallService extends Service {
 	
@@ -51,6 +41,7 @@ public class FloatBallService extends Service {
 			mWindowManager.updateViewLayout(mFloatBallView, params);
 		};
 	};
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
 		mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -175,14 +166,12 @@ public class FloatBallService extends Service {
 					try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				try {
 					Thread.sleep(800);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				msg = Message.obtain();

@@ -5,7 +5,6 @@ import com.zahowenbin.mobilesafe.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,12 +14,10 @@ public class SettingClickView extends RelativeLayout {
 
 	public SettingClickView(Context context) {
 		this(context, null);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SettingClickView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SettingClickView(Context context, AttributeSet attrs, int defStyle) {

@@ -33,7 +33,6 @@ public class CommonNumberActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_common_number);
 		initUI();
@@ -68,43 +67,36 @@ public class CommonNumberActivity extends Activity {
 
 		@Override
 		public int getGroupCount() {
-			// TODO Auto-generated method stub
 			return group.size();
 		}
 
 		@Override
 		public int getChildrenCount(int groupPosition) {
-			// TODO Auto-generated method stub
 			return group.get(groupPosition).childList.size();
 		}
 
 		@Override
 		public Group getGroup(int groupPosition) {
-			// TODO Auto-generated method stub
 			return group.get(groupPosition);
 		}
 
 		@Override
 		public Child getChild(int groupPosition, int childPosition) {
-			// TODO Auto-generated method stub
 			return group.get(groupPosition).childList.get(childPosition);
 		}
 
 		@Override
 		public long getGroupId(int groupPosition) {
-			// TODO Auto-generated method stub
 			return groupPosition;
 		}
 
 		@Override
 		public long getChildId(int groupPosition, int childPosition) {
-			// TODO Auto-generated method stub
 			return childPosition;
 		}
 
 		@Override
 		public boolean hasStableIds() {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
@@ -114,7 +106,8 @@ public class CommonNumberActivity extends Activity {
 			TextView textView = new TextView(getApplicationContext());
 			textView.setText("           " + getGroup(groupPosition).name);
 			textView.setPadding(5, 8, 5, 8);
-			textView.setTextColor(new Color().RED);
+			new Color();
+			textView.setTextColor(Color.RED);
 			textView.setTextSize(16);
 			return textView;
 		}
@@ -132,7 +125,6 @@ public class CommonNumberActivity extends Activity {
 
 		@Override
 		public boolean isChildSelectable(int groupPosition, int childPosition) {
-			// TODO Auto-generated method stub
 			return true;
 		}
 		

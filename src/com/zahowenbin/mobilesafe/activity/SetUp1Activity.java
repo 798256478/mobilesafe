@@ -12,15 +12,8 @@ public class SetUp1Activity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_set_up1);
-		
-		initUI();
 	}
 
-	private void initUI() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	public void nextPage(View view) {
 		Intent intent = new Intent(this, SetUp2Activity.class);
 		startActivity(intent);

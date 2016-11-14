@@ -40,7 +40,6 @@ public class SelectPhoneActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_phone);
 		
@@ -52,19 +51,16 @@ public class SelectPhoneActivity extends Activity {
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
 			return contactList.size();
 		}
 
 		@Override
 		public Map<String, String> getItem(int position) {
-			// TODO Auto-generated method stub
 			return contactList.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			// TODO Auto-generated method stub
 			return position;
 		}
 

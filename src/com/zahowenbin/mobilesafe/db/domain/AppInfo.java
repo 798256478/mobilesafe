@@ -1,7 +1,6 @@
 package com.zahowenbin.mobilesafe.db.domain;
 
 import android.graphics.drawable.Drawable;
-import android.support.v7.appcompat.R.drawable;
 
 public class AppInfo {
 	public String packageName;

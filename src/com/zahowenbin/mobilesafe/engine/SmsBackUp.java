@@ -1,14 +1,10 @@
 package com.zahowenbin.mobilesafe.engine;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import org.xmlpull.v1.XmlSerializer;
-
 import com.zahowenbin.mobilesafe.utils.ToastUtil;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -67,7 +63,6 @@ public class SmsBackUp {
 				ToastUtil.show(context, "没有短信，无需备份");
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			if(fos != null && cursor != null){
@@ -75,7 +70,6 @@ public class SmsBackUp {
 				try {
 					fos.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

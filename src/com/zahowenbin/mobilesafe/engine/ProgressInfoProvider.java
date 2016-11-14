@@ -1,25 +1,19 @@
 package com.zahowenbin.mobilesafe.engine;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.db.domain.ProgressInfo;
-
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
 import android.app.ActivityManager.RunningAppProcessInfo;
-import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.drawable.Drawable;
 
 public class ProgressInfoProvider {
 	public static int getProgressTotal(Context context){
@@ -84,7 +78,6 @@ public class ProgressInfoProvider {
 					progressInfo.isSystem = false;
 				}
 			} catch (NameNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				progressInfo.name = runningAppProcessInfo.processName;
 				progressInfo.icon = context.getResources().getDrawable(R.drawable.ic_launcher);

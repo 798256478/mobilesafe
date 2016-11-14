@@ -6,12 +6,9 @@ import java.io.File;
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.engine.SmsBackUp;
 import com.zahowenbin.mobilesafe.engine.SmsBackUp.CallBack;
-import com.zahowenbin.mobilesafe.utils.ToastUtil;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Path;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;

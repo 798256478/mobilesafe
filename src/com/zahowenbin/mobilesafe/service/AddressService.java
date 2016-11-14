@@ -4,8 +4,6 @@ import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.engine.QueryAddressDao;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
-import com.zahowenbin.mobilesafe.utils.ToastUtil;
-
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,9 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AddressService extends Service {
 	
@@ -48,9 +44,9 @@ public class AddressService extends Service {
 	private int mScreenwidth;
 	private InnerOutCallReceiver mInnerOutCallReceiver;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 		mTelephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		mPhoneSteteListener = new MyPhoneSteteListener();
@@ -79,7 +75,6 @@ public class AddressService extends Service {
 	class MyPhoneSteteListener extends PhoneStateListener{
 		@Override
 		public void onCallStateChanged(int state, String incomingNumber) {
-			// TODO Auto-generated method stub
 			super.onCallStateChanged(state, incomingNumber);
 			switch (state) {
 			case TelephonyManager.CALL_STATE_IDLE:
@@ -100,7 +95,6 @@ public class AddressService extends Service {
 	
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
