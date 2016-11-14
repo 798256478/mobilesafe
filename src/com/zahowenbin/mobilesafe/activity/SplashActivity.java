@@ -4,11 +4,14 @@ import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ProviderInfo;
+import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -47,6 +50,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 public class SplashActivity extends Activity {
 
@@ -97,9 +101,9 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         
         
-        if(!SpUtil.getBoolean(this, ConstantView.HAS_SHORTCUT, false)){
-        	//生成快捷方式
-            initShortCut();
+        
+        if(!hasShortcut()){
+        	initShortCut();
         }
         initUI();
         initData();
@@ -112,31 +116,62 @@ public class SplashActivity extends Activity {
 	private void initShortCut() {
 		//1,给intent维护图标,名称
 		Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
-		//维护图标
-		intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, 
-						BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+		//维护图标（教程上的方法有错，这是正确的）
+		intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, 
+				ShortcutIconResource.fromContext(this, R.drawable.ic_launcher));
 		//名称
-		intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "黑马卫士");
+		intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "安全卫士快捷方式");
 		//2,点击快捷方式后跳转到的activity
 		//2.1维护开启的意图对象
 		Intent shortCutIntent = new Intent("android.intent.action.HOME");
-		shortCutIntent.addCategory("android.intent.category.DEFAULT");
-				
+		shortCutIntent.addCategory("android.intent.category.DEFAULT");		
 		intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortCutIntent);
 		//3,发送广播
 		sendBroadcast(intent);
-		//ToastUtil.show(this, "发送广播之后");
-		SpUtil.putBoolean(this, ConstantView.HAS_SHORTCUT, true);
 	}
-
-
 
 	private void initDB() {
 		initAddressDB("address.db");
 		initAddressDB("commonnum.db");
 	}
-
-
+	
+	public boolean hasShortcut() {
+		  String url = "";
+		  url = "content://" + getAuthorityFromPermission("com.android.launcher.permission.READ_SETTINGS") + "/favorites?notify=true";
+		  ContentResolver resolver = getContentResolver();
+		  Cursor cursor = resolver.query(Uri.parse(url), new String[] { "title", "iconResource" }, "title=?", new String[] { getString(R.string.app_name).trim() }, null);
+		  if (cursor != null && cursor.moveToFirst()) {
+		   cursor.close();
+		   return true;
+		  }
+		  return false;
+	}
+	/*
+	 * 因为不同的手机厂商可能对手机系统进行了修改使用原生的
+	 * “content://com.android.launcher.settings/favorites?notify=true"
+	 * 或者
+	 * "content://com.android.launcher2.settings/favorites?notify=true"
+	 * 并不能准确判断 需要通过权限去获取当前手机provider.authority
+	 */
+	private String getAuthorityFromPermission(String permission) {
+		if (permission == null)
+		return null;
+		List<PackageInfo> packs = getPackageManager().getInstalledPackages(PackageManager.GET_PROVIDERS);
+		if (packs != null) {
+		   for (PackageInfo pack : packs) {
+			   ProviderInfo[] providers = pack.providers;
+			   if (providers != null) {
+				   for (ProviderInfo provider : providers) {
+					   if (permission.equals(provider.readPermission))
+						   return provider.authority;
+					   if (permission.equals(provider.writePermission))
+						   return provider.authority;
+				   }
+			   }
+		   }
+		}
+		return null;
+	}
 
 	private void initAddressDB(String DBName) {
 		File fileDir = getFilesDir();
