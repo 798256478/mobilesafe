@@ -25,6 +25,19 @@ public class AtoolsActivity extends Activity{
 		setContentView(R.layout.activity_atools);
 		initQueryAddress();
 		initBackupSms();
+		initCommonNumber();
+	}
+
+	private void initCommonNumber() {
+		TextView tv_common_number = (TextView) findViewById(R.id.tv_common_number);
+		tv_common_number.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(), CommonNumberActivity.class));
+			}
+		});
+		
 	}
 
 	private void initBackupSms() {

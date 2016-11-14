@@ -103,7 +103,7 @@ public class SplashActivity extends Activity {
 
 	private void initDB() {
 		initAddressDB("address.db");
-		
+		initAddressDB("commonnum.db");
 	}
 
 

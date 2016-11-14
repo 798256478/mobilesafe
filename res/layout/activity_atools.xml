@@ -29,4 +29,15 @@
         android:drawableLeft="@android:drawable/btn_star"
         android:background="@drawable/selector_atools_btn_bg"
         />
+	<TextView 
+        android:id="@+id/tv_common_number"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="常用电话查询"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="18sp"
+        android:drawableLeft="@android:drawable/btn_star"
+        android:background="@drawable/selector_atools_btn_bg"
+        />
 </LinearLayout>
