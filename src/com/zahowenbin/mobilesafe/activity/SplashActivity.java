@@ -6,8 +6,11 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -92,12 +95,39 @@ public class SplashActivity extends Activity {
         //去除app头的第一种方式
        // requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_splash);
-
+        
+        
+        if(!SpUtil.getBoolean(this, ConstantView.HAS_SHORTCUT, false)){
+        	//生成快捷方式
+            initShortCut();
+        }
         initUI();
         initData();
         initAnimation();
         initDB();
     }
+
+
+
+	private void initShortCut() {
+		//1,给intent维护图标,名称
+		Intent intent = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+		//维护图标
+		intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, 
+						BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher));
+		//名称
+		intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "黑马卫士");
+		//2,点击快捷方式后跳转到的activity
+		//2.1维护开启的意图对象
+		Intent shortCutIntent = new Intent("android.intent.action.HOME");
+		shortCutIntent.addCategory("android.intent.category.DEFAULT");
+				
+		intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortCutIntent);
+		//3,发送广播
+		sendBroadcast(intent);
+		//ToastUtil.show(this, "发送广播之后");
+		SpUtil.putBoolean(this, ConstantView.HAS_SHORTCUT, true);
+	}
 
 
 

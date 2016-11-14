@@ -17,4 +17,5 @@ public class ConstantView {
 	public static final String OPEN_ADDRESS = "open_address";
 	public static final String SHOW_SYSTEM = "show_system";
 	public static final String LOCK_SCREEN_CLEAN = "locak_screen_clean";
+	public static final String HAS_SHORTCUT = "has_shortcut";
 }
