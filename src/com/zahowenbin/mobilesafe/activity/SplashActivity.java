@@ -110,7 +110,7 @@ public class SplashActivity extends Activity {
 		intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, 
 				ShortcutIconResource.fromContext(this, R.drawable.ic_launcher));
 		//名称
-		intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "安全卫士快捷方式");
+		intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, getString(R.string.app_name));
 		//2,点击快捷方式后跳转到的activity
 		//2.1维护开启的意图对象
 		Intent shortCutIntent = new Intent("android.intent.action.HOME");
