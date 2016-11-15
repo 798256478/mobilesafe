@@ -86,6 +86,8 @@
             android:name="com.zahowenbin.mobilesafe.activity.ProcessSettingActivity" />
          <activity
             android:name="com.zahowenbin.mobilesafe.activity.CommonNumberActivity" />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.AppLockActivity" />
         <receiver 
             android:name="com.zahowenbin.mobilesafe.receiver.BootReceiver">
             <intent-filter>

@@ -1,25 +1,42 @@
 package com.zahowenbin.mobilesafe.service;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.activity.RocketBgActivity;
+import com.zahowenbin.mobilesafe.engine.ProgressInfoProvider;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 public class FloatBallService extends Service {
 	
+	protected static final int UPDATE_LOCATION = 100;
+	protected static final int UPDATE_SEND = 101;
+	protected static final int UPDATE_FLOAT = 102;
 	private WindowManager mWindowManager;
 	private int mScreenHeight;
 	private int mScreenwidth;
@@ -28,19 +45,37 @@ public class FloatBallService extends Service {
 	private TextView iv_float_ball;
 	private AnimationDrawable mAnimationDrawable;
 	private WindowManager.LayoutParams params;
+	private Timer timer;
+	private InnerReceiver innerReceiver;
+	private LayoutParams layoutParams;
 	private Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
-			if((Integer)msg.obj == 0){
-		        params.x = SpUtil.getInt(getApplicationContext(), ConstantView.FLOAT_BALL_lOCATIONX, 0);
+			switch (msg.what) {
+			case UPDATE_LOCATION:
+				startTimer();
+				params.x = SpUtil.getInt(getApplicationContext(), ConstantView.FLOAT_BALL_lOCATIONX, 0);
 		        params.y = SpUtil.getInt(getApplicationContext(), ConstantView.FLOAT_BALL_lOCATIONY, 0);
-		        iv_float_ball.setText("66%");
-		        iv_float_ball.setBackgroundResource(R.drawable.float_ball_bg);
-			}else{
+		        iv_float_ball.setBackgroundResource(R.drawable.float_ball_default_animation_bg);
+		        mAnimationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
+		        mAnimationDrawable.start();
+				layoutParams = new LinearLayout.LayoutParams(80, 80);
+				iv_float_ball.setLayoutParams(layoutParams);
+				iv_float_ball.setText((int)(((double)ProgressInfoProvider.getAvailSpace(getApplicationContext())/(double)ProgressInfoProvider.getTotalSpace(getApplicationContext()))*100)+"%");
+				break;
+			case UPDATE_SEND:
+				iv_float_ball.setText("");
 				params.y = (Integer) msg.obj;
+				break;
+			case UPDATE_FLOAT:
+				if(iv_float_ball != null)
+					iv_float_ball.setText((int)(((double)ProgressInfoProvider.getAvailSpace(getApplicationContext())/(double)ProgressInfoProvider.getTotalSpace(getApplicationContext()))*100)+"%");
+				break;
 			}
 			mWindowManager.updateViewLayout(mFloatBallView, params);
 		};
 	};
+
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate() {
@@ -48,9 +83,47 @@ public class FloatBallService extends Service {
 		mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
 		mScreenwidth = mWindowManager.getDefaultDisplay().getWidth();
 		showFloatBall();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+		intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+		innerReceiver = new InnerReceiver();
+		registerReceiver(innerReceiver, intentFilter);
+		startTimer();
 		super.onCreate();
 	}
 	
+	class InnerReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent.getAction().equals(Intent.ACTION_SCREEN_OFF)){
+				cancelTimer();
+			} else {
+				startTimer();
+			}
+		}
+	}
+	
+	private void cancelTimer() {
+		if(timer != null){
+			timer.cancel();
+			timer = null;
+		}
+	}
+	
+	private void startTimer() {
+		timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				Message message = new Message();
+				message.what = UPDATE_FLOAT;
+				mHandler.sendMessage(message);
+			}
+		}, 0, 3000);
+	}
+
 	private void showFloatBall() {
         params = mParams;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -66,11 +139,10 @@ public class FloatBallService extends Service {
         params.x = SpUtil.getInt(this, ConstantView.FLOAT_BALL_lOCATIONX, 0);
         params.y = SpUtil.getInt(this, ConstantView.FLOAT_BALL_lOCATIONY, 0);
         mFloatBallView = View.inflate(this, R.layout.toast_float_ball, null);
-        
-       
-        
+
         iv_float_ball = (TextView) mFloatBallView.findViewById(R.id.iv_float_ball);
-        
+        mAnimationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
+        mAnimationDrawable.start();
 
         mWindowManager.addView(mFloatBallView, params);	
         iv_float_ball.setOnTouchListener(new OnTouchListener() {
@@ -85,9 +157,12 @@ public class FloatBallService extends Service {
 			public boolean onTouch(View view, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
+					cancelTimer();
 					mWindowManager.updateViewLayout(mFloatBallView, params);
-					iv_float_ball.setText("");
 					iv_float_ball.setBackgroundResource(R.drawable.float_ball_animation_bg);
+					layoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+					iv_float_ball.setLayoutParams(layoutParams);
+					iv_float_ball.setText("");
 					 /*
 			         * 使动态背景图片动起来
 			         */
@@ -119,22 +194,26 @@ public class FloatBallService extends Service {
 					if(params.y > mScreenHeight - 22 - iv_float_ball.getHeight()){
 						params.y = mScreenHeight - 22 - iv_float_ball.getHeight();
 					}
-					
 					mWindowManager.updateViewLayout(mFloatBallView, params);
 					mStartX =(int) event.getRawX();
 					mStartY =(int) event.getRawY();
 					break;
 				case MotionEvent.ACTION_UP:
 					if((params.x + iv_float_ball.getWidth() ) > (mScreenwidth/3) && (params.x + iv_float_ball.getWidth() )< (mScreenwidth/3)*2 && params.y > mScreenHeight - 50 - iv_float_ball.getHeight()){
-						Intent intent = new Intent(getApplicationContext(), RocketBgActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						startActivity(intent);
 						Intent clearIntent = new Intent("android.intent.action.KILL_BACKGROUND_PROCESS");
 						sendBroadcast(clearIntent);
+						Intent intent = new Intent(getApplicationContext(), RocketBgActivity.class);
+						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+						startActivity(intent);
 						sendRocket();
 					}else {
-						iv_float_ball.setText("66%");
-						iv_float_ball.setBackgroundResource(R.drawable.float_ball_bg);
+						startTimer();
+						iv_float_ball.setBackgroundResource(R.drawable.float_ball_default_animation_bg);
+						mAnimationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
+				        mAnimationDrawable.start();
+						layoutParams = new LinearLayout.LayoutParams(80, 80);
+						iv_float_ball.setLayoutParams(layoutParams);
+						iv_float_ball.setText((int)(((double)ProgressInfoProvider.getAvailSpace(getApplicationContext())/(double)ProgressInfoProvider.getTotalSpace(getApplicationContext()))*100)+"%");
 						if(params.x>mScreenwidth/2){
 							params.x = mScreenwidth - 35;
 						} else if(params.x<mScreenwidth/2){
@@ -162,6 +241,7 @@ public class FloatBallService extends Service {
 				for (int i = 0; i < 11; i++) {
 					int left = height - (height / 10) * i;
 					msg = Message.obtain();
+					msg.what = UPDATE_SEND;
 					msg.obj = left;
 					mHandler.sendMessage(msg);
 					try {
@@ -176,7 +256,7 @@ public class FloatBallService extends Service {
 					e.printStackTrace();
 				}
 				msg = Message.obtain();
-				msg.obj = 0;
+				msg.what = UPDATE_LOCATION;
 				mHandler.sendMessage(msg);
 			}
 		}.start();
@@ -192,6 +272,12 @@ public class FloatBallService extends Service {
 	public void onDestroy() {
 		if(mWindowManager != null && mFloatBallView != null){
 			mWindowManager.removeView(mFloatBallView);
+		}
+		if(innerReceiver != null){			
+			unregisterReceiver(innerReceiver);
+		}
+		if(timer != null){
+			timer.cancel();
 		}
 		super.onDestroy();
 	}
