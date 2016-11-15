@@ -98,11 +98,26 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
         </receiver>
+        <receiver android:name="com.zahowenbin.mobilesafe.receiver.MyAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_info"/>
+        </receiver>
+        <receiver 
+            android:name="com.zahowenbin.mobilesafe.receiver.KillProcessReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.KILL_BACKGROUND_PROCESS"/>
+            </intent-filter>
+        </receiver>
+        
         <service android:name="com.zahowenbin.mobilesafe.service.AddressService"></service>
         <service android:name="com.zahowenbin.mobilesafe.service.LocationService"></service>
         <service android:name="com.zahowenbin.mobilesafe.service.FloatBallService"></service>
         <service android:name="com.zahowenbin.mobilesafe.service.BlackNumberService"></service>
         <service android:name="com.zahowenbin.mobilesafe.service.LockScreenService"></service>
+        <service android:name="com.zahowenbin.mobilesafe.service.AppWidgetService"></service>
     </application>
 
 </manifest>

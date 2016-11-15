@@ -128,8 +128,9 @@ public class FloatBallService extends Service {
 					if((params.x + iv_float_ball.getWidth() ) > (mScreenwidth/3) && (params.x + iv_float_ball.getWidth() )< (mScreenwidth/3)*2 && params.y > mScreenHeight - 50 - iv_float_ball.getHeight()){
 						Intent intent = new Intent(getApplicationContext(), RocketBgActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 						startActivity(intent);
+						Intent clearIntent = new Intent("android.intent.action.KILL_BACKGROUND_PROCESS");
+						sendBroadcast(clearIntent);
 						sendRocket();
 					}else {
 						iv_float_ball.setText("66%");
