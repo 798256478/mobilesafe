@@ -5,17 +5,25 @@ import java.util.List;
 
 import com.zahowenbin.mobilesafe.db.AppLockOpenHelper;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 public class AppLockDao {
 	private AppLockOpenHelper appLockOpenHelper;
+	Context context = null;
+	private static AppLockDao appLockDao = null;
+	private ContentResolver contentResolver;
+	
 	private AppLockDao(Context context){
+		this.context = context;
+		contentResolver = context.getContentResolver();
 		appLockOpenHelper = new AppLockOpenHelper(context);
 	}
-	private static AppLockDao appLockDao = null;
+
 	public static AppLockDao instance(Context context){
 		if(appLockDao == null){
 			appLockDao = new AppLockDao(context);
@@ -29,6 +37,7 @@ public class AppLockDao {
 		contentValues.put("packageName", packageName);
 		db.insert("applock", null, contentValues);
 		db.close();
+		contentResolver.notifyChange(Uri.parse("content://applock/change"), null);
 	}
 	
 	public void update(){
@@ -39,6 +48,7 @@ public class AppLockDao {
 		SQLiteDatabase db = appLockOpenHelper.getWritableDatabase();
 		db.delete("applock", "packageName = ?", new String[]{packageName});
 		db.close();
+		contentResolver.notifyChange(Uri.parse("content://applock/change"), null);
 	}
 	
 	public List<String> findAll(){

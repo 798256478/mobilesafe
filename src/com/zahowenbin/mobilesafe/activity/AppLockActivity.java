@@ -180,10 +180,15 @@ public class AppLockActivity extends Activity {
 			final View tempView = convertView;
 			viewHolder.icon.setBackgroundDrawable(getItem(position).drawable);
 			viewHolder.name.setText(getItem(position).name);
-			if(flag){
-				viewHolder.lock.setBackgroundResource(R.drawable.lock);	
-			} else {
-				viewHolder.lock.setBackgroundResource(R.drawable.unlock);
+			if(getItem(position).packageName.equals(getPackageName())){
+				viewHolder.lock.setVisibility(View.GONE);
+			}
+			else{
+				if(flag){
+					viewHolder.lock.setBackgroundResource(R.drawable.lock);	
+				} else {
+					viewHolder.lock.setBackgroundResource(R.drawable.unlock);
+				}	
 			}
 			
 			viewHolder.lock.setOnClickListener(new OnClickListener() {
