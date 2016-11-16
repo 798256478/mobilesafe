@@ -93,6 +93,8 @@
             android:name="com.zahowenbin.mobilesafe.activity.LockEnterPsdActivity" 
             android:launchMode="singleInstance"
             android:excludeFromRecents="true"/>
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.AntivirusActivity" />
         <receiver 
             android:name="com.zahowenbin.mobilesafe.receiver.BootReceiver">
             <intent-filter>
