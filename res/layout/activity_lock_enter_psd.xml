@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:gravity="center">
+    
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:background="@drawable/ic_launcher"
+        />
+    <TextView 
+        android:id="@+id/tv_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="安全卫士"
+        />
+    <EditText 
+        android:id="@+id/et_lock_psd"
+        android:layout_height="wrap_content"
+        android:layout_width="200dp"/>
+    <LinearLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+        <Button 
+            android:id="@+id/btn_submit"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="确认"/>
+        <Button 
+            android:id="@+id/btn_cancel"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="取消"/>
+    </LinearLayout>
+    
+
+</LinearLayout>
