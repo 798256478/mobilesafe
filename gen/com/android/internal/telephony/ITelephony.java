@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: D:\\javaWorkSpace\\mobilesafe\\src\\com\\android\\internal\\telephony\\ITelephony.aidl
+ * Original file: D:\\workspace\\mobilesafe\\src\\com\\android\\internal\\telephony\\ITelephony.aidl
  */
 package com.android.internal.telephony;
 /**

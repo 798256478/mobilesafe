@@ -4,9 +4,11 @@ import com.zahowenbin.mobilesafe.R;
 import com.zahowenbin.mobilesafe.service.AddressService;
 import com.zahowenbin.mobilesafe.service.BlackNumberService;
 import com.zahowenbin.mobilesafe.service.FloatBallService;
+import com.zahowenbin.mobilesafe.service.WatchDogService;
 import com.zahowenbin.mobilesafe.utils.ConstantView;
 import com.zahowenbin.mobilesafe.utils.ServiceUtil;
 import com.zahowenbin.mobilesafe.utils.SpUtil;
+import com.zahowenbin.mobilesafe.utils.ToastUtil;
 import com.zahowenbin.mobilesafe.view.SettingClickView;
 import com.zahowenbin.mobilesafe.view.SettingItemView;
 
@@ -16,8 +18,11 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class SettingActivity extends Activity {
 	private SettingClickView scv_toast_style;
@@ -25,6 +30,8 @@ public class SettingActivity extends Activity {
 	private int mToastStyleIndex;
 	private SettingClickView scv_toast_location;
 	private SettingItemView siv_blacknumber;
+	private SettingItemView siv_app_lock;
+	private EditText et_lock_psd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +44,59 @@ public class SettingActivity extends Activity {
 		initToastLocation();
 		initFloatBall();
 		initBlackNumber();
+		initAppLock();
+	}
+
+	private void initAppLock() {
+		siv_app_lock = (SettingItemView) findViewById(R.id.siv_app_lock);
+		boolean isRunning = ServiceUtil.isRunning(this, "com.zahowenbin.mobilesafe.service.WatchDogService");
+		siv_app_lock.setCheck(isRunning);
+		siv_app_lock.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				boolean isRunning = ServiceUtil.isRunning(getApplicationContext(), "com.zahowenbin.mobilesafe.service.WatchDogService");
+				if(!isRunning){
+					showEnterPsdDialog();
+				} else {
+					siv_app_lock.setCheck(false);
+					stopService(new Intent(getApplicationContext(), WatchDogService.class));
+				}
+			}
+		});
+	}
+
+	protected void showEnterPsdDialog() {
+		Builder builder = new AlertDialog.Builder(SettingActivity.this);
+		final AlertDialog dialog = builder.create();
+		View view = View.inflate(getApplicationContext(), R.layout.dialog_lock_psd, null);
+		dialog.setView(view);
+		dialog.show();
+		et_lock_psd = (EditText) view.findViewById(R.id.et_lock_psd);
+		Button bt_submit = (Button) view.findViewById(R.id.bt_submit);
+		Button bt_cancel = (Button) view.findViewById(R.id.bt_cancel);
+		bt_submit.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String lock_psd = et_lock_psd.getText().toString();
+				if(!TextUtils.isEmpty(lock_psd)){
+					SpUtil.putString(getApplicationContext(), ConstantView.LOCK_PSD, lock_psd);
+					siv_app_lock.setCheck(true);
+					startService(new Intent(getApplicationContext(), WatchDogService.class));
+					dialog.dismiss();
+				} else {
+					ToastUtil.show(getApplicationContext(), "«Î ‰»Î√‹¬Î");
+				}
+			}
+		});
+		bt_cancel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 	}
 
 	private void initBlackNumber() {

@@ -61,4 +61,14 @@
         mobilesafe:deson="(已开启)"
         mobilesafe:desoff="(已关闭)">
     </com.zahowenbin.mobilesafe.view.SettingItemView>
+    
+    <com.zahowenbin.mobilesafe.view.SettingItemView
+        xmlns:mobilesafe="http://schemas.android.com/apk/res/com.zahowenbin.mobilesafe"
+        android:id="@+id/siv_app_lock"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        mobilesafe:destitle="开启程序锁"
+        mobilesafe:deson="(已开启)"
+        mobilesafe:desoff="(已关闭)">
+    </com.zahowenbin.mobilesafe.view.SettingItemView>
 </LinearLayout>
