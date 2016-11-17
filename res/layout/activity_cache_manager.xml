@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <TextView
+            style="@style/TitleStyle"
+            android:text="缓存清理" />
+
+        <Button
+            android:id="@+id/btn_clear_cache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="一键清理"
+            />
+    </RelativeLayout>
+    <ProgressBar 
+        android:id="@+id/pb_progress"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/antivirus_progress_bg"
+        android:layout_marginBottom="5dp"
+        />
+    <TextView 
+        android:id="@+id/tv_cache_serch_title"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="正在查找应用缓存"/>
+	<ScrollView 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent">
+	    <LinearLayout 
+	        android:id="@+id/ll_app_list"
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        android:orientation="vertical">
+	        
+	    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

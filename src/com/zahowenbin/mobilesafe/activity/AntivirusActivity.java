@@ -58,7 +58,6 @@ public class AntivirusActivity extends Activity {
 				iv_scann1ing_name.setText(appInfo.name);
 				TextView textView = new TextView(getApplicationContext());
 				textView.setTextSize(16);
-				textView.setHeight(50);
 				pb_scanning.setProgress(index);
 				if(antivirusApp.contains(appInfo)){
 					textView.setText("Œ£œ’”¶”√£∫   " + appInfo.name);
