@@ -11,6 +11,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -70,6 +71,9 @@ public class HomeActivity extends Activity {
 					break;	
 				case 5:
 					startActivity(new Intent(getApplicationContext(), AntivirusActivity.class));
+					break;
+				case 6:
+					startActivity(new Intent(getApplicationContext(), CacheManagerActivity.class));
 					break;
 				case 7:
 					Intent intent2 = new Intent(getApplicationContext(), AtoolsActivity.class);
