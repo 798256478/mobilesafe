@@ -58,8 +58,6 @@ public class FloatBallService extends Service {
 		        iv_float_ball.setBackgroundResource(R.drawable.float_ball_default_animation_bg);
 		        mAnimationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
 		        mAnimationDrawable.start();
-				layoutParams = new LinearLayout.LayoutParams(80, 80);
-				iv_float_ball.setLayoutParams(layoutParams);
 				iv_float_ball.setText((int)(((double)ProgressInfoProvider.getAvailSpace(getApplicationContext())/(double)ProgressInfoProvider.getTotalSpace(getApplicationContext()))*100)+"%");
 				break;
 			case UPDATE_SEND:
@@ -211,8 +209,6 @@ public class FloatBallService extends Service {
 						iv_float_ball.setBackgroundResource(R.drawable.float_ball_default_animation_bg);
 						mAnimationDrawable = (AnimationDrawable) iv_float_ball.getBackground();
 				        mAnimationDrawable.start();
-						layoutParams = new LinearLayout.LayoutParams(80, 80);
-						iv_float_ball.setLayoutParams(layoutParams);
 						iv_float_ball.setText((int)(((double)ProgressInfoProvider.getAvailSpace(getApplicationContext())/(double)ProgressInfoProvider.getTotalSpace(getApplicationContext()))*100)+"%");
 						if(params.x>mScreenwidth/2){
 							params.x = mScreenwidth - 35;
