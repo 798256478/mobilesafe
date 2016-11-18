@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
 
     <application
+        android:name="com.zahowenbin.mobilesafe.global.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -99,6 +100,12 @@
             android:name="com.zahowenbin.mobilesafe.activity.AntivirusActivity" />
          <activity
             android:name="com.zahowenbin.mobilesafe.activity.CacheManagerActivity" />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.BaseCacheManagerActivity" />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.SDCacheManagerActivity" />
+         <activity
+            android:name="com.zahowenbin.mobilesafe.activity.TrafficActivity" />
         <receiver 
             android:name="com.zahowenbin.mobilesafe.receiver.BootReceiver">
             <intent-filter>

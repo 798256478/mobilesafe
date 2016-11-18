@@ -68,12 +68,15 @@ public class HomeActivity extends Activity {
 					break;
 				case 3:
 					startActivity(new Intent(getApplicationContext(), ProcessManagerActivity.class));
-					break;	
+					break;
+				case 4:
+					startActivity(new Intent(getApplicationContext(), TrafficActivity.class));
+					break;
 				case 5:
 					startActivity(new Intent(getApplicationContext(), AntivirusActivity.class));
 					break;
 				case 6:
-					startActivity(new Intent(getApplicationContext(), CacheManagerActivity.class));
+					startActivity(new Intent(getApplicationContext(), BaseCacheManagerActivity.class));
 					break;
 				case 7:
 					Intent intent2 = new Intent(getApplicationContext(), AtoolsActivity.class);
